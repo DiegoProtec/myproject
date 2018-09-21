@@ -1,12 +1,14 @@
-package com.myproject.api;
+package com.myproject.util;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Start {
+public class ApiLivraria {
 
     public static void main(String[] args){
-        SpringApplication.run(Start.class, args);
+        SpringApplication.run(ApiLivraria.class, args);
     }
+
+
 }
