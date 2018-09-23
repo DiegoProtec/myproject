@@ -8,16 +8,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "cartao")
-public class Cartao implements Serializable {
+public class Cartao extends Pagamento implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @NotNull
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String numero;
 
     @NotNull
@@ -35,14 +31,6 @@ public class Cartao implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cartao")
     @JoinColumn(name = "cartao_id")
     private List<Cliente> clientes;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNumero() {
         return numero;

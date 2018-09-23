@@ -3,6 +3,8 @@ package com.myproject.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "autor")
@@ -18,6 +20,9 @@ public class Autor implements Serializable {
     @Column(nullable = false)
     private String nome;
 
+    @ManyToMany(mappedBy = "autores")
+    private Set<Livro> livros = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -32,5 +37,13 @@ public class Autor implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    Set<Livro> getLivros() {
+        return livros;
+    }
+
+    public void setLivros(Set<Livro> livros) {
+        this.livros = livros;
     }
 }

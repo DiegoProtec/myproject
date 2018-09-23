@@ -3,7 +3,9 @@ package com.myproject.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "livro")
@@ -25,11 +27,25 @@ public class Livro implements Serializable {
     @Column(nullable = false)
     private Double preco;
 
-    @ManyToMany
-    private List<Autor> autores;
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "livro_autor",
+            joinColumns = @JoinColumn(name = "livro_id"),
+            inverseJoinColumns = @JoinColumn(name = "autor_id")
+    )
+    private Set<Autor> autores =  new HashSet<>();
 
-    @ManyToMany
-    private List<Categoria> categorias;
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "livro_categoria",
+            joinColumns = @JoinColumn(name = "livro_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private Set<Categoria> categorias = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -63,19 +79,23 @@ public class Livro implements Serializable {
         this.preco = preco;
     }
 
-    public List<Autor> getAutores() {
-        return autores;
+    public void addAutor(Autor autor) {
+        autores.add(autor);
+        autor.getLivros().add(this);
     }
 
-    public void setAutores(List<Autor> autores) {
-        this.autores = autores;
+    public void removeAutor(Autor autor) {
+        autores.remove(autor);
+        autor.getLivros().remove(this);
     }
 
-    public List<Categoria> getCategorias() {
-        return categorias;
+    public void addCategoria(Categoria categoria) {
+        categorias.add(categoria);
+        categoria.getLivros().add(this);
     }
 
-    public void setCategorias(List<Categoria> categorias) {
-        this.categorias = categorias;
+    public void removeCategoria(Categoria categoria) {
+        categorias.remove(categoria);
+        categoria.getLivros().remove(this);
     }
 }

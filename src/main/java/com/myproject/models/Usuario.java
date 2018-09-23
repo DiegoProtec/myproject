@@ -6,29 +6,26 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "usuario")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private Long id;
 
     @NotNull
-    @Column(name = "email", nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @NotNull
-    @Column(name = "senha", nullable = false)
+    @Column(nullable = false)
     private String senha;
 
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private Cliente cliente;
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private Funcionario funcionario;
+    @NotNull
+    @Column(nullable = false)
+    private String nome;
 
     public Long getId() {
         return id;
@@ -54,19 +51,11 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public String getNome() {
+        return nome;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Funcionario getFuncionario() {
-        return funcionario;
-    }
-
-    public void setFuncionario(Funcionario funcionario) {
-        this.funcionario = funcionario;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }
