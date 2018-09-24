@@ -1,10 +1,8 @@
 package com.myproject.models;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @MappedSuperclass
 public abstract class Pagamento implements Serializable {
@@ -15,11 +13,25 @@ public abstract class Pagamento implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pagamento")
+    @JoinColumn(name = "pagamento_id")
+    private List<Compra> compras;
+
+    Pagamento() {}
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Compra> getCompras() {
+        return compras;
+    }
+
+    public void setCompras(List<Compra> compras) {
+        this.compras = compras;
     }
 }

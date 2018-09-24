@@ -27,6 +27,15 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private String nome;
 
+    Usuario() {
+    }
+
+    public Usuario(@NotNull String email, @NotNull String senha, @NotNull String nome) {
+        this.email = email;
+        this.senha = senha;
+        this.nome = nome;
+    }
+
     public Long getId() {
         return id;
     }

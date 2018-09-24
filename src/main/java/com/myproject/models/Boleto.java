@@ -22,6 +22,15 @@ public class Boleto extends Pagamento implements Serializable {
 
     private LocalDate vencimento;
 
+    public Boleto() {
+    }
+
+    public Boleto(String codigo, @NotNull Double valor, LocalDate vencimento) {
+        this.codigo = codigo;
+        this.valor = valor;
+        this.vencimento = vencimento;
+    }
+
     public String getCodigo() {
         return codigo;
     }

@@ -3,6 +3,7 @@ package com.myproject.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "cliente")
@@ -16,6 +17,18 @@ public class Cliente extends Usuario implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Cartao cartao;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
+    @JoinColumn(name = "cliente_id")
+    private List<Compra> compras;
+
+    public Cliente() {
+    }
+
+    public Cliente(@NotNull String telefone, Cartao cartao) {
+        this.telefone = telefone;
+        this.cartao = cartao;
+    }
 
     public String getTelefone() {
         return telefone;
@@ -31,5 +44,13 @@ public class Cliente extends Usuario implements Serializable {
 
     public void setCartao(Cartao cartao) {
         this.cartao = cartao;
+    }
+
+    public List<Compra> getCompras() {
+        return compras;
+    }
+
+    public void setCompras(List<Compra> compras) {
+        this.compras = compras;
     }
 }

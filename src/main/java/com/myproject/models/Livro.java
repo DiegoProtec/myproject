@@ -3,6 +3,7 @@ package com.myproject.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +28,13 @@ public class Livro implements Serializable {
     @Column(nullable = false)
     private Double preco;
 
+    @OneToMany(
+            mappedBy = "livro",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Carrinho> compras = new ArrayList<>();
+
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -47,7 +55,17 @@ public class Livro implements Serializable {
     )
     private Set<Categoria> categorias = new HashSet<>();
 
-    public Long getId() {
+    public Livro(){}
+
+    public Livro(@NotNull String titulo, String descricao, @NotNull Double preco, Set<Autor> autores, Set<Categoria> categorias) {
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.preco = preco;
+        this.autores = autores;
+        this.categorias = categorias;
+    }
+
+    Long getId() {
         return id;
     }
 
@@ -77,6 +95,14 @@ public class Livro implements Serializable {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    List<Carrinho> getCompras() {
+        return compras;
+    }
+
+    public void setCompras(List<Carrinho> compras) {
+        this.compras = compras;
     }
 
     public void addAutor(Autor autor) {

@@ -32,6 +32,16 @@ public class Cartao extends Pagamento implements Serializable {
     @JoinColumn(name = "cartao_id")
     private List<Cliente> clientes;
 
+    public Cartao() {
+    }
+
+    public Cartao(@NotNull String numero, @NotNull String titular, @NotNull LocalDate vencimento, @NotNull String autenticador) {
+        this.numero = numero;
+        this.titular = titular;
+        this.vencimento = vencimento;
+        this.autenticador = autenticador;
+    }
+
     public String getNumero() {
         return numero;
     }
@@ -71,5 +81,4 @@ public class Cartao extends Pagamento implements Serializable {
     public void setClientes(List<Cliente> clientes) {
         this.clientes = clientes;
     }
-
 }

@@ -23,6 +23,13 @@ public class Categoria implements Serializable {
     @ManyToMany(mappedBy = "categorias")
     private Set<Livro> livros = new HashSet<>();
 
+    public Categoria() {
+    }
+
+    public Categoria(@NotNull String categoria) {
+        this.categoria = categoria;
+    }
+
     public Long getId() {
         return id;
     }
