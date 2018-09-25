@@ -16,7 +16,7 @@ public class Pagamento implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @OneToMany(mappedBy = "pagamento", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pagamento")
     private List<Compra> compras = new ArrayList<>();
 
     Pagamento() {}

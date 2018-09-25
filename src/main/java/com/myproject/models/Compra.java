@@ -26,9 +26,11 @@ public class Compra implements Serializable {
     private List<Carrinho> livros = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pagamento_id")
     private Pagamento pagamento;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     public Compra() {}

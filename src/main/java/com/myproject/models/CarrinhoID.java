@@ -2,6 +2,7 @@ package com.myproject.models;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.MapsId;
 import java.io.Serializable;
 
 @Embeddable

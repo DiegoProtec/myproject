@@ -18,7 +18,7 @@ public class Cliente extends Usuario implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Cartao cartao;
 
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<Compra> compras;
 
     public Cliente() {
