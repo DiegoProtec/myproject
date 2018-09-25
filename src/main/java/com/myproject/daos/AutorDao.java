@@ -1,4 +1,9 @@
 package com.myproject.daos;
 
-public class AutorDao {
+import com.myproject.models.Autor;
+import org.springframework.data.repository.Repository;
+
+public interface AutorDao extends Repository<Autor, Long> {
+
+
 }

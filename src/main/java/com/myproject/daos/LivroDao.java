@@ -1,4 +1,9 @@
 package com.myproject.daos;
 
-public class LivroDao {
+import com.myproject.models.Livro;
+import org.springframework.data.repository.Repository;
+
+public interface LivroDao extends Repository<Livro, Long> {
+
+
 }

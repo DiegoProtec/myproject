@@ -1,4 +1,9 @@
 package com.myproject.daos;
 
-public class CategoriaDao {
+import com.myproject.models.Categoria;
+import org.springframework.data.repository.Repository;
+
+public interface CategoriaDao extends Repository<Categoria, Long> {
+
+
 }
