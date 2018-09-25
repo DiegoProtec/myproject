@@ -14,11 +14,11 @@ public class Carrinho implements Serializable {
     private CarrinhoID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("livro_id")
+    @JoinColumn(insertable = false, updatable = false)
     private Livro livro;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("compra_id")
+    @JoinColumn(insertable = false, updatable = false)
     private Compra compra;
 
     @Column(name = "data")

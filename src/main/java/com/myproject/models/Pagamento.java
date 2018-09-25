@@ -2,10 +2,13 @@ package com.myproject.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-@MappedSuperclass
-public abstract class Pagamento implements Serializable {
+@Entity
+@Table(name = "pagamento")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Pagamento implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -13,9 +16,8 @@ public abstract class Pagamento implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pagamento")
-    @JoinColumn(name = "pagamento_id")
-    private List<Compra> compras;
+    @OneToMany(mappedBy = "pagamento", cascade = CascadeType.ALL)
+    private List<Compra> compras = new ArrayList<>();
 
     Pagamento() {}
 

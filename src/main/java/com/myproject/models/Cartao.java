@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,9 +29,8 @@ public class Cartao extends Pagamento implements Serializable {
     @Column(nullable = false)
     private String autenticador;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cartao")
-    @JoinColumn(name = "cartao_id")
-    private List<Cliente> clientes;
+    @OneToMany(mappedBy = "cartao", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Cliente> clientes = new ArrayList<>();
 
     public Cartao() {
     }
