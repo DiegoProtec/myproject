@@ -15,6 +15,7 @@ public class Cliente extends Usuario implements Serializable {
     @Column(nullable = false)
     private String telefone;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Cartao cartao;
 
@@ -24,7 +25,7 @@ public class Cliente extends Usuario implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(@NotNull String telefone, Cartao cartao) {
+    public Cliente(@NotNull String telefone, @NotNull Cartao cartao) {
         this.telefone = telefone;
         this.cartao = cartao;
     }

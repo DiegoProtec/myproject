@@ -20,12 +20,13 @@ public class Boleto extends Pagamento implements Serializable {
     @Column(nullable = false)
     private Double valor;
 
+    @NotNull
+    @Column(nullable = false)
     private LocalDate vencimento;
 
-    public Boleto() {
-    }
+    public Boleto() {}
 
-    public Boleto(String codigo, @NotNull Double valor, LocalDate vencimento) {
+    public Boleto(String codigo, @NotNull Double valor, @NotNull LocalDate vencimento) {
         this.codigo = codigo;
         this.valor = valor;
         this.vencimento = vencimento;

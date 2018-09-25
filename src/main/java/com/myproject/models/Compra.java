@@ -1,6 +1,7 @@
 package com.myproject.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,6 +17,8 @@ public class Compra implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Column(nullable = false)
     private Double precoTotal;
 
     @OneToMany(
@@ -25,24 +28,26 @@ public class Compra implements Serializable {
     )
     private List<Carrinho> livros = new ArrayList<>();
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pagamento_id")
+    @JoinColumn(name = "pagamento_id", nullable = false)
     private Pagamento pagamento;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Cliente cliente;
 
     public Compra() {}
 
-    public Compra(Double precoTotal, List<Carrinho> livros, Pagamento pagamento, Cliente cliente) {
+    public Compra(@NotNull Double precoTotal, List<Carrinho> livros, @NotNull Pagamento pagamento, @NotNull Cliente cliente) {
         this.precoTotal = precoTotal;
         this.livros = livros;
         this.pagamento = pagamento;
         this.cliente = cliente;
     }
 
-    Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -74,7 +79,7 @@ public class Compra implements Serializable {
         this.pagamento = pagamento;
     }
 
-    public Cliente getCliente() {
+    public Usuario getCliente() {
         return cliente;
     }
 

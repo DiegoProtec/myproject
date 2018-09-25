@@ -1,6 +1,7 @@
 package com.myproject.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -13,24 +14,26 @@ public class Carrinho implements Serializable {
     @EmbeddedId
     private CarrinhoID id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(nullable = false, insertable = false, updatable = false)
     private Livro livro;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(nullable = false, insertable = false, updatable = false)
     private Compra compra;
 
-    @Column(name = "data")
+    @NotNull
+    @Column(name = "data", nullable = false)
     private LocalDate data;
 
     private Carrinho() {
     }
 
-    Carrinho(Livro livro, Compra compra) {
+    Carrinho(@NotNull Livro livro, @NotNull Compra compra) {
         this.livro = livro;
         this.compra = compra;
-        this.id = new CarrinhoID(livro.getId(), compra.getId());
     }
 
     public CarrinhoID getId() {

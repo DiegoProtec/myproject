@@ -23,12 +23,10 @@ public class Autor implements Serializable {
     @ManyToMany(mappedBy = "autores")
     private Set<Livro> livros = new HashSet<>();
 
-    public Autor() {
-    }
+    public Autor() {}
 
-    public Autor(@NotNull String nome, Set<Livro> livros) {
+    public Autor(@NotNull String nome) {
         this.nome = nome;
-        this.livros = livros;
     }
 
     public Long getId() {
