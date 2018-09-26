@@ -1,4 +1,4 @@
-package com.myproject.models;
+package com.myproject.domain;
 
 
 import javax.persistence.*;
