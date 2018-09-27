@@ -37,6 +37,15 @@ public class AutoresResource {
         } else return null;
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public void atualizar(@PathVariable("id") Long id, @RequestBody Autor autor){
+        Optional<Autor> op = autoresRepository.findById(id);
+        if(op.isPresent()) {
+            autor.setId(id);
+            autoresRepository.save(autor);
+        }
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deletar(@PathVariable("id") Long id){
         Optional<Autor> op = autoresRepository.findById(id);
