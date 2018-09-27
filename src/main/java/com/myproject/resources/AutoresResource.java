@@ -1,54 +1,57 @@
 package com.myproject.resources;
 
 import com.myproject.domain.Autor;
-import com.myproject.repositorys.AutoresRepository;
+import com.myproject.services.AutoresServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/autores")
 public class AutoresResource {
 
-    private AutoresRepository autoresRepository;
+    private AutoresServices autoresServices;
 
     @Autowired
-    public AutoresResource(AutoresRepository autoresRepository) {
-        this.autoresRepository = autoresRepository;
+    public AutoresResource(AutoresServices autoresServices) {
+        this.autoresServices = autoresServices;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Autor> listar(){
-        return autoresRepository.findAll();
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public void salvar(@RequestBody Autor autor){
-        autoresRepository.save(autor);
+    public ResponseEntity<List<Autor>> listar(){
+        return ResponseEntity.status(HttpStatus.OK).body(autoresServices.listar());
     }
 
     @RequestMapping(value = "/{id}" ,method = RequestMethod.GET)
-    public Autor getAutor(@PathVariable("id") Long id){
-        Optional<Autor> op = autoresRepository.findById(id);
-        if(op.isPresent()) {
-            return op.get();
-        } else return null;
+    public ResponseEntity<Autor> autor(@PathVariable("id") Long id){
+        Autor autor = autoresServices.autor(id);
+        return ResponseEntity.status(HttpStatus.OK).body(autor);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Autor> salvar(@RequestBody @Valid Autor autor){
+        autor = autoresServices.salvar(autor);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(autor.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void atualizar(@PathVariable("id") Long id, @RequestBody Autor autor){
-        Optional<Autor> op = autoresRepository.findById(id);
-        if(op.isPresent()) {
-            autor.setId(id);
-            autoresRepository.save(autor);
-        }
+    public ResponseEntity<Autor> atualizar(@PathVariable("id") Long id, @RequestBody Autor autor){
+        autor.setId(id);
+        autoresServices.atualizar(autor);
+        return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deletar(@PathVariable("id") Long id){
-        Optional<Autor> op = autoresRepository.findById(id);
-        if(op.isPresent()) autoresRepository.delete(op.get());
+    public ResponseEntity<Autor> deletar(@PathVariable("id") Long id){
+        autoresServices.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 }

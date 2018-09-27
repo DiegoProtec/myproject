@@ -1,7 +1,7 @@
 package com.myproject.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +16,7 @@ public class Categoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false)
     private String categoria;
 
@@ -24,10 +24,6 @@ public class Categoria implements Serializable {
     private Set<Livro> livros = new HashSet<>();
 
     public Categoria() {
-    }
-
-    public Categoria(@NotNull String categoria) {
-        this.categoria = categoria;
     }
 
     public Long getId() {

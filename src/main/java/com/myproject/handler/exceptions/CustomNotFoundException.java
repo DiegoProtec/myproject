@@ -1,12 +1,13 @@
-package com.myproject.exceptions;
+package com.myproject.handler.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class CategoriaException extends RuntimeException{
+public class CustomNotFoundException extends RuntimeException {
 
-    public CategoriaException(String exception) {
+    public CustomNotFoundException(String exception) {
         super(exception);
     }
+
 }
