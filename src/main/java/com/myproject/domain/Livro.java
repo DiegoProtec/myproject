@@ -1,6 +1,10 @@
 package com.myproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,10 +22,12 @@ public class Livro implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false)
     private String titulo;
 
+    @NotBlank
+    @Column(nullable = false)
     private String descricao;
 
     @NotNull
@@ -33,6 +39,7 @@ public class Livro implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<Carrinho> compras = new ArrayList<>();
 
     @ManyToMany(cascade = {
@@ -43,6 +50,7 @@ public class Livro implements Serializable {
             joinColumns = @JoinColumn(name = "livro_id"),
             inverseJoinColumns = @JoinColumn(name = "autor_id")
     )
+    @JsonIgnore
     private Set<Autor> autores =  new HashSet<>();
 
     @ManyToMany(cascade = {
@@ -53,19 +61,18 @@ public class Livro implements Serializable {
             joinColumns = @JoinColumn(name = "livro_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id")
     )
+    @JsonIgnore
     private Set<Categoria> categorias = new HashSet<>();
 
     public Livro(){}
 
-    public Livro(@NotNull String titulo, String descricao, @NotNull Double preco, Set<Autor> autores, Set<Categoria> categorias) {
+    public Livro(@NotBlank String titulo, @NotBlank String descricao, @NotNull Double preco) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.preco = preco;
-        this.autores = autores;
-        this.categorias = categorias;
     }
 
-    Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -97,7 +104,7 @@ public class Livro implements Serializable {
         this.preco = preco;
     }
 
-    List<Carrinho> getCompras() {
+    public List<Carrinho> getCompras() {
         return compras;
     }
 

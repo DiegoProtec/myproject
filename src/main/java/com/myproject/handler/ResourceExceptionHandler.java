@@ -1,6 +1,7 @@
 package com.myproject.handler;
 
-import com.myproject.handler.exceptions.CustomNotFoundException;
+import com.myproject.domain.ErrorDetails;
+import com.myproject.resources.exceptions.CustomNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.io.IOException;
 
 @ControllerAdvice
 @RestController
@@ -24,4 +27,5 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDetails erros = new ErrorDetails(System.currentTimeMillis(), "Dado não encontrado, erro:" + e.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(erros, HttpStatus.NOT_FOUND);
     }
+
 }

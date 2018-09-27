@@ -23,34 +23,34 @@ public class AutoresResource {
         this.autoresServices = autoresServices;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping()
     public ResponseEntity<List<Autor>> listar(){
         return ResponseEntity.status(HttpStatus.OK).body(autoresServices.listar());
     }
 
-    @RequestMapping(value = "/{id}" ,method = RequestMethod.GET)
+    @GetMapping("/{id}")
     public ResponseEntity<Autor> autor(@PathVariable("id") Long id){
         Autor autor = autoresServices.autor(id);
         return ResponseEntity.status(HttpStatus.OK).body(autor);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Autor> salvar(@RequestBody @Valid Autor autor){
+    @PostMapping()
+    public ResponseEntity<Void> salvar(@RequestBody @Valid Autor autor){
         autor = autoresServices.salvar(autor);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(autor.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Autor> atualizar(@PathVariable("id") Long id, @RequestBody Autor autor){
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> atualizar(@PathVariable("id") Long id, @RequestBody Autor autor){
         autor.setId(id);
         autoresServices.atualizar(autor);
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Autor> deletar(@PathVariable("id") Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable("id") Long id){
         autoresServices.deletar(id);
         return ResponseEntity.noContent().build();
     }

@@ -2,7 +2,7 @@ package com.myproject.services;
 
 import com.myproject.domain.Autor;
 import com.myproject.repositorys.AutoresRepository;
-import com.myproject.handler.exceptions.CustomNotFoundException;
+import com.myproject.resources.exceptions.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

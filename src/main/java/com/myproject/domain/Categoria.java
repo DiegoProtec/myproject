@@ -1,5 +1,7 @@
 package com.myproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -21,9 +23,14 @@ public class Categoria implements Serializable {
     private String categoria;
 
     @ManyToMany(mappedBy = "categorias")
+    @JsonIgnore
     private Set<Livro> livros = new HashSet<>();
 
     public Categoria() {
+    }
+
+    public Categoria(@NotBlank String categoria) {
+        this.categoria = categoria;
     }
 
     public Long getId() {

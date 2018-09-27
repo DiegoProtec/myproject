@@ -1,5 +1,7 @@
 package com.myproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -21,6 +23,7 @@ public class Autor implements Serializable {
     private String nome;
 
     @ManyToMany(mappedBy = "autores")
+    @JsonIgnore
     private Set<Livro> livros = new HashSet<>();
 
     public Autor() {}

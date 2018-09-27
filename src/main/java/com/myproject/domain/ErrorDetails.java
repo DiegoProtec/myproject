@@ -1,4 +1,4 @@
-package com.myproject.handler;
+package com.myproject.domain;
 
 public class ErrorDetails {
 
@@ -6,7 +6,7 @@ public class ErrorDetails {
     private String mensagem;
     private String detalhes;
 
-    ErrorDetails(Long time, String mensagem, String detalhes) {
+    public ErrorDetails(Long time, String mensagem, String detalhes) {
         super();
         this.time = time;
         this.mensagem = mensagem;
