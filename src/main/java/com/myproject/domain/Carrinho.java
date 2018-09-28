@@ -1,5 +1,7 @@
 package com.myproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -14,10 +16,12 @@ public class Carrinho implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     private Livro livro;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     private Compra compra;
 
     private Carrinho() {
@@ -26,6 +30,7 @@ public class Carrinho implements Serializable {
     Carrinho(Livro livro, Compra compra) {
         this.livro = livro;
         this.compra = compra;
+        this.id = new IDCarrinho(livro.getId(), compra.getId());
     }
 
     public IDCarrinho getId() {

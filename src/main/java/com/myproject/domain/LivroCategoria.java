@@ -1,5 +1,7 @@
 package com.myproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -11,14 +13,16 @@ public class LivroCategoria implements Serializable {
     public static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private IDLivroAutor id;
+    private IDLivroCategoria id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     private Livro livro;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     private Categoria categoria;
 
     public LivroCategoria() {
@@ -27,13 +31,14 @@ public class LivroCategoria implements Serializable {
     public LivroCategoria(Livro livro, Categoria categoria) {
         this.livro = livro;
         this.categoria = categoria;
+        this.id = new IDLivroCategoria(livro.getId(), categoria.getId());
     }
 
-    public IDLivroAutor getId() {
+    public IDLivroCategoria getId() {
         return id;
     }
 
-    public void setId(IDLivroAutor id) {
+    public void setId(IDLivroCategoria id) {
         this.id = id;
     }
 

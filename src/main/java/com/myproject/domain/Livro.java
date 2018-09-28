@@ -1,8 +1,5 @@
 package com.myproject.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -37,8 +34,6 @@ public class Livro implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonIgnore
     private List<LivroAutor> autores = new ArrayList<>();
 
     @OneToMany(
@@ -46,8 +41,6 @@ public class Livro implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonIgnore
     private List<LivroCategoria> categorias = new ArrayList<>();
 
     @OneToMany(
@@ -55,17 +48,18 @@ public class Livro implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonIgnore
     private List<Carrinho> compras = new ArrayList<>();
 
     public Livro() {
     }
 
-    public Livro(@NotBlank String titulo, @NotBlank String descricao, @NotNull Double preco) {
+    public Livro(@NotBlank String titulo, @NotBlank String descricao, @NotNull Double preco, List<LivroAutor> autores, List<LivroCategoria> categorias, List<Carrinho> compras) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.preco = preco;
+        this.autores = autores;
+        this.categorias = categorias;
+        this.compras = compras;
     }
 
     public Long getId() {

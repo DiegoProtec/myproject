@@ -52,14 +52,14 @@ public class LivrosResource {
     }
 
     @PutMapping("/{id}/autores")
-    public ResponseEntity<Void> addAutores(@PathVariable("id") Long id, @RequestBody List<Autor> autores) {
+    public ResponseEntity<Void> atualizarAutores(@PathVariable("id") Long id, @RequestBody List<Autor> autores) {
         Livro livro = livrosService.livro(id);
         livrosService.atualizarAutores(livro, autores);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/categorias")
-    public ResponseEntity<Void> addCategorias(@PathVariable("id") Long id, @RequestBody List<Categoria> categorias) {
+    public ResponseEntity<Void> atualizarCategorias(@PathVariable("id") Long id, @RequestBody List<Categoria> categorias) {
         Livro livro = livrosService.livro(id);
         livrosService.atualizarCategorias(livro, categorias);
         return ResponseEntity.noContent().build();

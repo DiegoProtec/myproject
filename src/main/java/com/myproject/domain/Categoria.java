@@ -28,15 +28,14 @@ public class Categoria implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonIgnore
     private List<LivroCategoria> livros = new ArrayList<>();
 
     public Categoria() {
     }
 
-    public Categoria(@NotBlank String categoria) {
+    public Categoria(@NotBlank String categoria, List<LivroCategoria> livros) {
         this.categoria = categoria;
+        this.livros = livros;
     }
 
     public Long getId() {

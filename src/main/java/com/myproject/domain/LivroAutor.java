@@ -1,5 +1,7 @@
 package com.myproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -14,10 +16,12 @@ public class LivroAutor implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     private Livro livro;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     private Autor autor;
 
     public LivroAutor() {
@@ -26,6 +30,7 @@ public class LivroAutor implements Serializable {
     public LivroAutor(Livro livro, Autor autor) {
         this.livro = livro;
         this.autor = autor;
+        this.id = new IDLivroAutor(livro.getId(), autor.getId());
     }
 
     public IDLivroAutor getId() {

@@ -28,15 +28,14 @@ public class Autor implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonIgnore
     private List<LivroAutor> livros = new ArrayList<>();
 
     public Autor() {
     }
 
-    public Autor(@NotNull String nome) {
+    public Autor(@NotNull String nome, List<LivroAutor> livros) {
         this.nome = nome;
+        this.livros = livros;
     }
 
     public Long getId() {
