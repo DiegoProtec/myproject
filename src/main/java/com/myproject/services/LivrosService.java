@@ -1,5 +1,7 @@
 package com.myproject.services;
 
+import com.myproject.domain.Autor;
+import com.myproject.domain.Categoria;
 import com.myproject.domain.Livro;
 import com.myproject.repositorys.LivrosRepository;
 import com.myproject.resources.exceptions.CustomExistEntity;
@@ -20,26 +22,40 @@ public class LivrosService {
         this.livrosRepository = livrosRepository;
     }
 
-    public List<Livro> listar(){
+    public List<Livro> listar() {
         return livrosRepository.findAll();
     }
 
-    public Livro livro(Long id){
+    public Livro livro(Long id) {
         Optional<Livro> op = livrosRepository.findById(id);
-        if(!op.isPresent()) throw new CustomNotFoundException("id:" + id);
+        if (!op.isPresent()) throw new CustomNotFoundException("id:" + id);
         return op.get();
     }
 
     public Livro salvar(Livro livro) {
-        if(livro.getId() != null) {
+        if (livro.getId() != null) {
             Optional<Livro> op = livrosRepository.findById(livro.getId());
-            if(op.isPresent()) throw new CustomExistEntity("O livro já existe.");
+            if (op.isPresent()) throw new CustomExistEntity("O livro já existe.");
         }
         return livrosRepository.save(livro);
     }
 
     public void atualizar(Livro livro) {
         this.existe(livro);
+        livrosRepository.save(livro);
+    }
+
+    public void atualizarAutores(Livro livro, List<Autor> autores) {
+        for (Autor autor : autores) {
+            livro.addAutor(autor);
+        }
+        livrosRepository.save(livro);
+    }
+
+    public void atualizarCategorias(Livro livro, List<Categoria> categorias) {
+        for (Categoria categoria : categorias) {
+            livro.addCategoria(categoria);
+        }
         livrosRepository.save(livro);
     }
 
@@ -51,7 +67,8 @@ public class LivrosService {
         }
     }
 
-    private void existe(Livro livro){
+
+    private void existe(Livro livro) {
         this.livro(livro.getId());
     }
 }

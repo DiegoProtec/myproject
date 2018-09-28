@@ -15,7 +15,8 @@ public class IDCarrinho implements Serializable {
     @Column(name = "compra_id")
     private Long compra_id;
 
-    public IDCarrinho() {}
+    public IDCarrinho() {
+    }
 
     IDCarrinho(Long livro_id, Long compra_id) {
         this.livro_id = livro_id;

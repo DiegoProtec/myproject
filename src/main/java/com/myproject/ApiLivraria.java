@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackages = {"com.myproject.domain"})
 public class ApiLivraria {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         SpringApplication.run(ApiLivraria.class, args);
     }
 

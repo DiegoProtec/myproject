@@ -19,7 +19,8 @@ public class Pagamento implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pagamento")
     private List<Compra> compras = new ArrayList<>();
 
-    Pagamento() {}
+    Pagamento() {
+    }
 
     public Long getId() {
         return id;

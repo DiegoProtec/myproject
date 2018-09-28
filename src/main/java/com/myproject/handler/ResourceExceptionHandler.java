@@ -23,7 +23,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(CustomExistEntity.class )
+    @ExceptionHandler(CustomExistEntity.class)
     protected ResponseEntity<Object> resourceConflict(CustomExistEntity e, WebRequest request) {
         ErrorDetails error = new ErrorDetails(
                 System.currentTimeMillis(), 404L, "Entidade já persistida", "http://errors.livraria.com/409"

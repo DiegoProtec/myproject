@@ -124,13 +124,13 @@ public class Livro implements Serializable {
         this.compras = compras;
     }
 
-    public void addAutor(Autor autor){
+    public void addAutor(Autor autor) {
         LivroAutor livroAutor = new LivroAutor(this, autor);
         autores.add(livroAutor);
         autor.getLivros().add(livroAutor);
     }
 
-    public void addCategoria(Categoria categoria){
+    public void addCategoria(Categoria categoria) {
         LivroCategoria livroCategoria = new LivroCategoria(this, categoria);
         categorias.add(livroCategoria);
         categoria.getLivros().add(livroCategoria);

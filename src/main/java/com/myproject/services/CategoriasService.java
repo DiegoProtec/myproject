@@ -31,9 +31,9 @@ public class CategoriasService {
     }
 
     public Categoria salvar(Categoria categoria) {
-        if(categoria.getId() != null) {
+        if (categoria.getId() != null) {
             Optional<Categoria> op = categoriasRepository.findById(categoria.getId());
-            if(op.isPresent()) throw new CustomExistEntity("A categoria já existe.");
+            if (op.isPresent()) throw new CustomExistEntity("A categoria já existe.");
         }
         return categoriasRepository.save(categoria);
     }

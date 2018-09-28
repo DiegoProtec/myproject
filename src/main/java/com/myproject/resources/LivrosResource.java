@@ -1,5 +1,7 @@
 package com.myproject.resources;
 
+import com.myproject.domain.Autor;
+import com.myproject.domain.Categoria;
 import com.myproject.domain.Livro;
 import com.myproject.services.LivrosService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +26,18 @@ public class LivrosResource {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Livro>> listar(){
+    public ResponseEntity<List<Livro>> listar() {
         return ResponseEntity.status(HttpStatus.OK).body(livrosService.listar());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Livro> livro(@PathVariable("id") Long id){
+    public ResponseEntity<Livro> livro(@PathVariable("id") Long id) {
         Livro livro = livrosService.livro(id);
         return ResponseEntity.status(HttpStatus.OK).body(livro);
     }
 
     @PostMapping()
-    public ResponseEntity<Void> salvar(@RequestBody @Valid Livro livro){
+    public ResponseEntity<Void> salvar(@RequestBody @Valid Livro livro) {
         livro = livrosService.salvar(livro);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(livro.getId()).toUri();
@@ -43,14 +45,28 @@ public class LivrosResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable("id") Long id, @RequestBody Livro livro){
+    public ResponseEntity<Void> atualizar(@PathVariable("id") Long id, @RequestBody Livro livro) {
         livro.setId(id);
         livrosService.atualizar(livro);
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}/autores")
+    public ResponseEntity<Void> addAutores(@PathVariable("id") Long id, @RequestBody List<Autor> autores) {
+        Livro livro = livrosService.livro(id);
+        livrosService.atualizarAutores(livro, autores);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/categorias")
+    public ResponseEntity<Void> addCategorias(@PathVariable("id") Long id, @RequestBody List<Categoria> categorias) {
+        Livro livro = livrosService.livro(id);
+        livrosService.atualizarCategorias(livro, categorias);
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable("id") Long id){
+    public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
         livrosService.deletar(id);
         return ResponseEntity.noContent().build();
     }

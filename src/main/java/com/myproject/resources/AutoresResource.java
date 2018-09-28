@@ -24,18 +24,18 @@ public class AutoresResource {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Autor>> listar(){
+    public ResponseEntity<List<Autor>> listar() {
         return ResponseEntity.status(HttpStatus.OK).body(autoresServices.listar());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Autor> autor(@PathVariable("id") Long id){
+    public ResponseEntity<Autor> autor(@PathVariable("id") Long id) {
         Autor autor = autoresServices.autor(id);
         return ResponseEntity.status(HttpStatus.OK).body(autor);
     }
 
     @PostMapping()
-    public ResponseEntity<Void> salvar(@RequestBody @Valid Autor autor){
+    public ResponseEntity<Void> salvar(@RequestBody @Valid Autor autor) {
         autor = autoresServices.salvar(autor);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(autor.getId()).toUri();
@@ -43,14 +43,14 @@ public class AutoresResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable("id") Long id, @RequestBody Autor autor){
+    public ResponseEntity<Void> atualizar(@PathVariable("id") Long id, @RequestBody Autor autor) {
         autor.setId(id);
         autoresServices.atualizar(autor);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable("id") Long id){
+    public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
         autoresServices.deletar(id);
         return ResponseEntity.noContent().build();
     }

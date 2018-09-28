@@ -38,7 +38,8 @@ public class Compra implements Serializable {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Cliente cliente;
 
-    public Compra() {}
+    public Compra() {
+    }
 
     public Compra(@NotNull Double precoTotal, List<Carrinho> livros, @NotNull Pagamento pagamento, @NotNull Cliente cliente) {
         this.precoTotal = precoTotal;

@@ -15,7 +15,8 @@ public class IDLivroAutor implements Serializable {
     @Column(name = "autor_id")
     private Long autor_id;
 
-    public IDLivroAutor() {}
+    public IDLivroAutor() {
+    }
 
     public IDLivroAutor(Long livro_id, Long autor_id) {
         this.livro_id = livro_id;

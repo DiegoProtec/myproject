@@ -20,30 +20,30 @@ public class AutoresServices {
         this.autoresRepository = autoresRepository;
     }
 
-    public List<Autor> listar(){
+    public List<Autor> listar() {
         return autoresRepository.findAll();
     }
 
-    public Autor autor(Long id){
+    public Autor autor(Long id) {
         Optional<Autor> op = autoresRepository.findById(id);
-        if(!op.isPresent()) throw new CustomNotFoundException("id: " + id);
+        if (!op.isPresent()) throw new CustomNotFoundException("id: " + id);
         return op.get();
     }
 
-    public Autor salvar(Autor autor){
-        if(autor.getId() != null) {
+    public Autor salvar(Autor autor) {
+        if (autor.getId() != null) {
             Optional<Autor> op = autoresRepository.findById(autor.getId());
-            if(op.isPresent()) throw new CustomExistEntity("O autor já existe.");
+            if (op.isPresent()) throw new CustomExistEntity("O autor já existe.");
         }
         return autoresRepository.save(autor);
     }
 
-    public void atualizar(Autor autor){
+    public void atualizar(Autor autor) {
         this.existe(autor);
         autoresRepository.save(autor);
     }
 
-    public void deletar(Long id){
+    public void deletar(Long id) {
         try {
             autoresRepository.deleteById(id);
         } catch (CustomNotFoundException e) {
@@ -51,7 +51,7 @@ public class AutoresServices {
         }
     }
 
-    private void existe(Autor autor){
+    private void existe(Autor autor) {
         this.autor(autor.getId());
     }
 
