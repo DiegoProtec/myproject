@@ -1,8 +1,6 @@
 package com.myproject.resources;
 
 import com.myproject.domain.Livro;
-import com.myproject.services.AutoresServices;
-import com.myproject.services.CategoriasService;
 import com.myproject.services.LivrosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,14 +17,10 @@ import java.util.List;
 public class LivrosResource {
 
     private LivrosService livrosService;
-    private CategoriasService categoriasService;
-    private AutoresServices autoresServices;
 
     @Autowired
-    public LivrosResource(LivrosService livrosService, CategoriasService categoriasService, AutoresServices autoresServices) {
+    public LivrosResource(LivrosService livrosService) {
         this.livrosService = livrosService;
-        this.categoriasService = categoriasService;
-        this.autoresServices = autoresServices;
     }
 
     @GetMapping()

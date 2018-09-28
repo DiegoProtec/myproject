@@ -8,9 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "livro")
@@ -39,32 +37,30 @@ public class Livro implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonIgnore
+    private List<LivroAutor> autores = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "livro",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonIgnore
+    private List<LivroCategoria> categorias = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "livro",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnore
     private List<Carrinho> compras = new ArrayList<>();
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "livro_autor",
-            joinColumns = @JoinColumn(name = "livro_id"),
-            inverseJoinColumns = @JoinColumn(name = "autor_id")
-    )
-    @JsonIgnore
-    private Set<Autor> autores =  new HashSet<>();
-
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "livro_categoria",
-            joinColumns = @JoinColumn(name = "livro_id"),
-            inverseJoinColumns = @JoinColumn(name = "categoria_id")
-    )
-    @JsonIgnore
-    private Set<Categoria> categorias = new HashSet<>();
-
-    public Livro(){}
+    public Livro() {
+    }
 
     public Livro(@NotBlank String titulo, @NotBlank String descricao, @NotNull Double preco) {
         this.titulo = titulo;
@@ -104,31 +100,27 @@ public class Livro implements Serializable {
         this.preco = preco;
     }
 
+    public List<LivroAutor> getAutores() {
+        return autores;
+    }
+
+    public void setAutores(List<LivroAutor> autores) {
+        this.autores = autores;
+    }
+
+    public List<LivroCategoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<LivroCategoria> categorias) {
+        this.categorias = categorias;
+    }
+
     public List<Carrinho> getCompras() {
         return compras;
     }
 
     public void setCompras(List<Carrinho> compras) {
         this.compras = compras;
-    }
-
-    public void addAutor(Autor autor) {
-        autores.add(autor);
-        autor.getLivros().add(this);
-    }
-
-    public void removeAutor(Autor autor) {
-        autores.remove(autor);
-        autor.getLivros().remove(this);
-    }
-
-    public void addCategoria(Categoria categoria) {
-        categorias.add(categoria);
-        categoria.getLivros().add(this);
-    }
-
-    public void removeCategoria(Categoria categoria) {
-        categorias.remove(categoria);
-        categoria.getLivros().remove(this);
     }
 }

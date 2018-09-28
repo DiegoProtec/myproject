@@ -1,11 +1,14 @@
 package com.myproject.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,11 +25,17 @@ public class Autor implements Serializable {
     @Column(nullable = false)
     private String nome;
 
-    @ManyToMany(mappedBy = "autores")
+    @OneToMany(
+            mappedBy = "autor",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnore
-    private Set<Livro> livros = new HashSet<>();
+    private List<LivroAutor> livros = new ArrayList<>();
 
-    public Autor() {}
+    public Autor() {
+    }
 
     public Autor(@NotNull String nome) {
         this.nome = nome;
@@ -48,11 +57,11 @@ public class Autor implements Serializable {
         this.nome = nome;
     }
 
-    Set<Livro> getLivros() {
+    public List<LivroAutor> getLivros() {
         return livros;
     }
 
-    public void setLivros(Set<Livro> livros) {
+    public void setLivros(List<LivroAutor> livros) {
         this.livros = livros;
     }
 }

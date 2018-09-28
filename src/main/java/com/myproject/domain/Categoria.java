@@ -1,12 +1,13 @@
 package com.myproject.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "categoria")
@@ -22,9 +23,14 @@ public class Categoria implements Serializable {
     @Column(nullable = false)
     private String categoria;
 
-    @ManyToMany(mappedBy = "categorias")
+    @OneToMany(
+            mappedBy = "categoria",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnore
-    private Set<Livro> livros = new HashSet<>();
+    private List<LivroCategoria> livros = new ArrayList<>();
 
     public Categoria() {
     }
@@ -49,11 +55,11 @@ public class Categoria implements Serializable {
         this.categoria = categoria;
     }
 
-    Set<Livro> getLivros() {
+    public List<LivroCategoria> getLivros() {
         return livros;
     }
 
-    public void setLivros(Set<Livro> livros) {
+    public void setLivros(List<LivroCategoria> livros) {
         this.livros = livros;
     }
 }

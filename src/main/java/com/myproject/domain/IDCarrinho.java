@@ -5,7 +5,7 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class CarrinhoID implements Serializable {
+public class IDCarrinho implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -15,9 +15,9 @@ public class CarrinhoID implements Serializable {
     @Column(name = "compra_id")
     private Long compra_id;
 
-    public CarrinhoID() {}
+    public IDCarrinho() {}
 
-    CarrinhoID(Long livro_id, Long compra_id) {
+    IDCarrinho(Long livro_id, Long compra_id) {
         this.livro_id = livro_id;
         this.compra_id = compra_id;
     }
