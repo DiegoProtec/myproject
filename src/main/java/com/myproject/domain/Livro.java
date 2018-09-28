@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "livro")
@@ -29,19 +30,13 @@ public class Livro implements Serializable {
     @Column(nullable = false)
     private Double preco;
 
-    @OneToMany(
-            mappedBy = "livro",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<LivroAutor> autores = new ArrayList<>();
+    @Column
+    @ElementCollection(targetClass=Autor.class)
+    private Set<Autor> autores;
 
-    @OneToMany(
-            mappedBy = "livro",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<LivroCategoria> categorias = new ArrayList<>();
+    @Column
+    @ElementCollection(targetClass=Categoria.class)
+    private Set<Categoria> categorias;
 
     @OneToMany(
             mappedBy = "livro",
@@ -53,13 +48,41 @@ public class Livro implements Serializable {
     public Livro() {
     }
 
-    public Livro(@NotBlank String titulo, @NotBlank String descricao, @NotNull Double preco, List<LivroAutor> autores, List<LivroCategoria> categorias, List<Carrinho> compras) {
+    public Livro(@NotBlank String titulo, @NotBlank String descricao, @NotNull Double preco, Set<Autor> autores, Set<Categoria> categorias, List<Carrinho> compras) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.preco = preco;
         this.autores = autores;
         this.categorias = categorias;
         this.compras = compras;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "livro_autor",
+            joinColumns = @JoinColumn(name = "livro_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "autor_id", referencedColumnName = "id")
+    )
+    public Set<Autor> getAutores() {
+        return autores;
+    }
+
+    public void setAutores(Set<Autor> autores) {
+        this.autores = autores;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "livro_categoria",
+            joinColumns = @JoinColumn(name = "livro_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "id")
+    )
+    public Set<Categoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(Set<Categoria> categorias) {
+        this.categorias = categorias;
     }
 
     public Long getId() {
@@ -94,39 +117,11 @@ public class Livro implements Serializable {
         this.preco = preco;
     }
 
-    public List<LivroAutor> getAutores() {
-        return autores;
-    }
-
-    public void setAutores(List<LivroAutor> autores) {
-        this.autores = autores;
-    }
-
-    public List<LivroCategoria> getCategorias() {
-        return categorias;
-    }
-
-    public void setCategorias(List<LivroCategoria> categorias) {
-        this.categorias = categorias;
-    }
-
-    public List<Carrinho> getCompras() {
+    List<Carrinho> getCompras() {
         return compras;
     }
 
     public void setCompras(List<Carrinho> compras) {
         this.compras = compras;
-    }
-
-    public void addAutor(Autor autor) {
-        LivroAutor livroAutor = new LivroAutor(this, autor);
-        autores.add(livroAutor);
-        autor.getLivros().add(livroAutor);
-    }
-
-    public void addCategoria(Categoria categoria) {
-        LivroCategoria livroCategoria = new LivroCategoria(this, categoria);
-        categorias.add(livroCategoria);
-        categoria.getLivros().add(livroCategoria);
     }
 }

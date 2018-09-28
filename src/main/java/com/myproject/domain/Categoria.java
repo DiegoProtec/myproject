@@ -1,13 +1,9 @@
 package com.myproject.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "categoria")
@@ -23,17 +19,14 @@ public class Categoria implements Serializable {
     @Column(nullable = false)
     private String categoria;
 
-    @OneToMany(
-            mappedBy = "categoria",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<LivroCategoria> livros = new ArrayList<>();
+    @Column
+    @ElementCollection(targetClass=Livro.class)
+    private Set<Livro> livros;
 
     public Categoria() {
     }
 
-    public Categoria(@NotBlank String categoria, List<LivroCategoria> livros) {
+    public Categoria(@NotBlank String categoria, Set<Livro> livros) {
         this.categoria = categoria;
         this.livros = livros;
     }
@@ -54,11 +47,12 @@ public class Categoria implements Serializable {
         this.categoria = categoria;
     }
 
-    public List<LivroCategoria> getLivros() {
+    @ManyToMany(mappedBy = "categorias")
+    public Set<Livro> getLivros() {
         return livros;
     }
 
-    public void setLivros(List<LivroCategoria> livros) {
+    public void setLivros(Set<Livro> livros) {
         this.livros = livros;
     }
 }

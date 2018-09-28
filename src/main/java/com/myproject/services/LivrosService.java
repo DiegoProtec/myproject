@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class LivrosService {
@@ -45,17 +46,13 @@ public class LivrosService {
         livrosRepository.save(livro);
     }
 
-    public void atualizarAutores(Livro livro, List<Autor> autores) {
-        for (Autor autor : autores) {
-            livro.addAutor(autor);
-        }
+    public void atualizarAutores(Livro livro, Set<Autor> autores) {
+        livro.setAutores(autores);
         livrosRepository.save(livro);
     }
 
-    public void atualizarCategorias(Livro livro, List<Categoria> categorias) {
-        for (Categoria categoria : categorias) {
-            livro.addCategoria(categoria);
-        }
+    public void atualizarCategorias(Livro livro, Set<Categoria> categorias) {
+        livro.setCategorias(categorias);
         livrosRepository.save(livro);
     }
 
