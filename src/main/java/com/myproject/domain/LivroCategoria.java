@@ -24,8 +24,7 @@ public class LivroCategoria implements Serializable {
     public LivroCategoria() {
     }
 
-    public LivroCategoria(IDLivroAutor id, Livro livro, Categoria categoria) {
-        this.id = id;
+    public LivroCategoria(Livro livro, Categoria categoria) {
         this.livro = livro;
         this.categoria = categoria;
     }

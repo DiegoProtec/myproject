@@ -2,23 +2,40 @@ package com.myproject.domain;
 
 public class ErrorDetails {
 
-    private Long time;
+    private Long timestamp;
+    private Long status;
+    private String titulo;
     private String mensagem;
-    private String detalhes;
 
-    public ErrorDetails(Long time, String mensagem, String detalhes) {
-        super();
-        this.time = time;
+    public ErrorDetails(Long timestamp, Long status, String titulo, String mensagem) {
+        this.timestamp = timestamp;
+        this.status = status;
+        this.titulo = titulo;
         this.mensagem = mensagem;
-        this.detalhes = detalhes;
     }
 
-    public Long getTime() {
-        return time;
+    public Long getTimestamp() {
+        return timestamp;
     }
 
-    public void setTime(Long time) {
-        this.time = time;
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getMensagem() {
@@ -27,13 +44,5 @@ public class ErrorDetails {
 
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
-    }
-
-    public String getDetalhes() {
-        return detalhes;
-    }
-
-    public void setDetalhes(String detalhes) {
-        this.detalhes = detalhes;
     }
 }

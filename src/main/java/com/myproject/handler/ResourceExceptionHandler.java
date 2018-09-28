@@ -1,6 +1,7 @@
 package com.myproject.handler;
 
 import com.myproject.domain.ErrorDetails;
+import com.myproject.resources.exceptions.CustomExistEntity;
 import com.myproject.resources.exceptions.CustomNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +15,20 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestController
 public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ErrorDetails> resourceError(Exception ex, WebRequest request) {
-        ErrorDetails erros = new ErrorDetails(System.currentTimeMillis(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(erros, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     @ExceptionHandler(CustomNotFoundException.class)
     public ResponseEntity<ErrorDetails> resourceNotFound(CustomNotFoundException e, WebRequest request) {
-        ErrorDetails erros = new ErrorDetails(System.currentTimeMillis(), "Dado não encontrado, erro:" + e.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(erros, HttpStatus.NOT_FOUND);
+        ErrorDetails error = new ErrorDetails(
+                System.currentTimeMillis(), 404L, "Entidade não encontrada", "http://errors.livraria.com/404"
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(CustomExistEntity.class )
+    protected ResponseEntity<Object> resourceConflict(CustomExistEntity e, WebRequest request) {
+        ErrorDetails error = new ErrorDetails(
+                System.currentTimeMillis(), 404L, "Entidade já persistida", "http://errors.livraria.com/409"
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
 }

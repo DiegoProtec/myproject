@@ -23,8 +23,7 @@ public class LivroAutor implements Serializable {
     public LivroAutor() {
     }
 
-    public LivroAutor(IDLivroAutor id, Livro livro, Autor autor) {
-        this.id = id;
+    public LivroAutor(Livro livro, Autor autor) {
         this.livro = livro;
         this.autor = autor;
     }

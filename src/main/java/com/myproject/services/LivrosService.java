@@ -2,6 +2,7 @@ package com.myproject.services;
 
 import com.myproject.domain.Livro;
 import com.myproject.repositorys.LivrosRepository;
+import com.myproject.resources.exceptions.CustomExistEntity;
 import com.myproject.resources.exceptions.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,12 +31,15 @@ public class LivrosService {
     }
 
     public Livro salvar(Livro livro) {
-        livro.setId(null);
+        if(livro.getId() != null) {
+            Optional<Livro> op = livrosRepository.findById(livro.getId());
+            if(op.isPresent()) throw new CustomExistEntity("O livro já existe.");
+        }
         return livrosRepository.save(livro);
     }
 
     public void atualizar(Livro livro) {
-        existe(livro);
+        this.existe(livro);
         livrosRepository.save(livro);
     }
 
