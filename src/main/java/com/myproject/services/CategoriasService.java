@@ -21,37 +21,34 @@ public class CategoriasService {
     }
 
     public List<Categoria> listar() {
-        return categoriasRepository.findAll();
+        return this.categoriasRepository.findAll();
     }
 
     public Categoria categoria(Long id) {
-        Optional<Categoria> op = categoriasRepository.findById(id);
+        Optional<Categoria> op = this.categoriasRepository.findById(id);
         if (!op.isPresent()) throw new CustomNotFoundException("id:" + id);
         return op.get();
     }
 
     public Categoria salvar(Categoria categoria) {
         if (categoria.getId() != null) {
-            Optional<Categoria> op = categoriasRepository.findById(categoria.getId());
+            Optional<Categoria> op = this.categoriasRepository.findById(categoria.getId());
             if (op.isPresent()) throw new CustomExistEntity("A categoria já existe.");
         }
-        return categoriasRepository.save(categoria);
+        return this.categoriasRepository.save(categoria);
     }
 
     public void atualizar(Categoria categoria) {
         this.existe(categoria);
-        categoriasRepository.save(categoria);
+        this.categoriasRepository.save(categoria);
     }
 
     public void deletar(Long id) {
-        try {
-            categoriasRepository.deleteById(id);
-        } catch (CustomNotFoundException e) {
-            throw new CustomNotFoundException("id:" + id);
-        }
+        Categoria categoria = this.categoria(id);
+        this.categoriasRepository.delete(categoria);
     }
 
-    private void existe(Categoria categoria) {
+    void existe(Categoria categoria) {
         this.categoria(categoria.getId());
     }
 

@@ -21,37 +21,34 @@ public class AutoresServices {
     }
 
     public List<Autor> listar() {
-        return autoresRepository.findAll();
+        return this.autoresRepository.findAll();
     }
 
     public Autor autor(Long id) {
-        Optional<Autor> op = autoresRepository.findById(id);
+        Optional<Autor> op = this.autoresRepository.findById(id);
         if (!op.isPresent()) throw new CustomNotFoundException("id: " + id);
         return op.get();
     }
 
     public Autor salvar(Autor autor) {
         if (autor.getId() != null) {
-            Optional<Autor> op = autoresRepository.findById(autor.getId());
+            Optional<Autor> op = this.autoresRepository.findById(autor.getId());
             if (op.isPresent()) throw new CustomExistEntity("O autor já existe.");
         }
-        return autoresRepository.save(autor);
+        return this.autoresRepository.save(autor);
     }
 
     public void atualizar(Autor autor) {
         this.existe(autor);
-        autoresRepository.save(autor);
+        this.autoresRepository.save(autor);
     }
 
     public void deletar(Long id) {
-        try {
-            autoresRepository.deleteById(id);
-        } catch (CustomNotFoundException e) {
-            throw new CustomNotFoundException("id:" + id);
-        }
+        Autor autor = this.autor(id);
+        this.autoresRepository.delete(autor);
     }
 
-    private void existe(Autor autor) {
+    void existe(Autor autor) {
         this.autor(autor.getId());
     }
 

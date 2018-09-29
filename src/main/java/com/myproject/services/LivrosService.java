@@ -9,6 +9,7 @@ import com.myproject.resources.exceptions.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -17,55 +18,64 @@ import java.util.Set;
 public class LivrosService {
 
     private LivrosRepository livrosRepository;
+    private AutoresServices autoresServices;
+    private CategoriasService categoriasService;
 
     @Autowired
-    public LivrosService(LivrosRepository livrosRepository) {
+    public LivrosService(LivrosRepository livrosRepository, AutoresServices autoresServices, CategoriasService categoriasService) {
         this.livrosRepository = livrosRepository;
+        this.autoresServices = autoresServices;
+        this.categoriasService = categoriasService;
     }
 
     public List<Livro> listar() {
-        return livrosRepository.findAll();
+        return this.livrosRepository.findAll();
     }
 
     public Livro livro(Long id) {
-        Optional<Livro> op = livrosRepository.findById(id);
+        Optional<Livro> op = this.livrosRepository.findById(id);
         if (!op.isPresent()) throw new CustomNotFoundException("id:" + id);
         return op.get();
     }
 
     public Livro salvar(Livro livro) {
         if (livro.getId() != null) {
-            Optional<Livro> op = livrosRepository.findById(livro.getId());
+            Optional<Livro> op = this.livrosRepository.findById(livro.getId());
             if (op.isPresent()) throw new CustomExistEntity("O livro já existe.");
         }
-        return livrosRepository.save(livro);
+        return this.livrosRepository.save(livro);
     }
 
     public void atualizar(Livro livro) {
         this.existe(livro);
-        livrosRepository.save(livro);
+        this.livrosRepository.save(livro);
     }
 
     public void atualizarAutores(Livro livro, Set<Autor> autores) {
+        this.existe(livro);
+        for (Autor autor : autores) {
+            this.autoresServices.existe(autor);
+        }
         livro.setAutores(autores);
-        livrosRepository.save(livro);
+        this.livrosRepository.save(livro);
     }
 
     public void atualizarCategorias(Livro livro, Set<Categoria> categorias) {
+        this.existe(livro);
+        for (Categoria categoria : categorias) {
+            this.categoriasService.existe(categoria);
+        }
         livro.setCategorias(categorias);
-        livrosRepository.save(livro);
+        this.livrosRepository.save(livro);
     }
 
     public void deletar(Long id) {
-        try {
-            livrosRepository.deleteById(id);
-        } catch (CustomNotFoundException e) {
-            throw new CustomNotFoundException("id:" + id);
-        }
+        Livro livro = this.livro(id);
+        this.livrosRepository.delete(livro);
     }
-
 
     private void existe(Livro livro) {
         this.livro(livro.getId());
     }
+
 }

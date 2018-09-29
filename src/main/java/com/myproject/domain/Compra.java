@@ -33,19 +33,13 @@ public class Compra implements Serializable {
     @JoinColumn(name = "pagamento_id", nullable = false)
     private Pagamento pagamento;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Cliente cliente;
-
     public Compra() {
     }
 
-    public Compra(@NotNull Double precoTotal, List<Carrinho> livros, @NotNull Pagamento pagamento, @NotNull Cliente cliente) {
+    public Compra(@NotNull Double precoTotal, List<Carrinho> livros, @NotNull Pagamento pagamento) {
         this.precoTotal = precoTotal;
         this.livros = livros;
         this.pagamento = pagamento;
-        this.cliente = cliente;
     }
 
     public Long getId() {
@@ -78,14 +72,6 @@ public class Compra implements Serializable {
 
     public void setPagamento(Pagamento pagamento) {
         this.pagamento = pagamento;
-    }
-
-    public Usuario getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
     public void addLivro(Livro livro) {

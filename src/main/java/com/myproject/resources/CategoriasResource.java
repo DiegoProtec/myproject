@@ -25,18 +25,18 @@ public class CategoriasResource {
 
     @GetMapping()
     public ResponseEntity<List<Categoria>> listar() {
-        return ResponseEntity.status(HttpStatus.OK).body(categoriasService.listar());
+        return ResponseEntity.status(HttpStatus.OK).body(this.categoriasService.listar());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Categoria> categoria(@PathVariable("id") Long id) {
-        Categoria categoria = categoriasService.categoria(id);
+        Categoria categoria = this.categoriasService.categoria(id);
         return ResponseEntity.status(HttpStatus.OK).body(categoria);
     }
 
     @PostMapping()
     public ResponseEntity<Categoria> salvar(@RequestBody @Valid Categoria categoria) {
-        categoria = categoriasService.salvar(categoria);
+        categoria = this.categoriasService.salvar(categoria);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(categoria.getId()).toUri();
         return ResponseEntity.created(uri).build();
@@ -45,13 +45,13 @@ public class CategoriasResource {
     @PutMapping("/{id}")
     public ResponseEntity<Void> atualizar(@PathVariable("id") Long id, @RequestBody Categoria categoria) {
         categoria.setId(id);
-        categoriasService.atualizar(categoria);
+        this.categoriasService.atualizar(categoria);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
-        categoriasService.deletar(id);
+        this.categoriasService.deletar(id);
         return ResponseEntity.noContent().build();
     }
 

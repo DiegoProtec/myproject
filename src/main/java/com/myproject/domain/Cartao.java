@@ -4,8 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "cartao")
@@ -29,17 +28,19 @@ public class Cartao extends Pagamento implements Serializable {
     @Column(nullable = false)
     private String autenticador;
 
-    @OneToMany(mappedBy = "cartao", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Cliente> clientes = new ArrayList<>();
+    @Column
+    @ElementCollection(targetClass=Cliente.class)
+    private Set<Cliente> clientes;
 
     public Cartao() {
     }
 
-    public Cartao(@NotNull String numero, @NotNull String titular, @NotNull LocalDate vencimento, @NotNull String autenticador) {
+    public Cartao(@NotNull String numero, @NotNull String titular, @NotNull LocalDate vencimento, @NotNull String autenticador, Set<Cliente> clientes) {
         this.numero = numero;
         this.titular = titular;
         this.vencimento = vencimento;
         this.autenticador = autenticador;
+        this.clientes = clientes;
     }
 
     public String getNumero() {
@@ -74,11 +75,12 @@ public class Cartao extends Pagamento implements Serializable {
         this.autenticador = autenticador;
     }
 
-    public List<Cliente> getClientes() {
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.ALL)
+    public Set<Cliente> getClientes() {
         return clientes;
     }
 
-    public void setClientes(List<Cliente> clientes) {
+    public void setClientes(Set<Cliente> clientes) {
         this.clientes = clientes;
     }
 }

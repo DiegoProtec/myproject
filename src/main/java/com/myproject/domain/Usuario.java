@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "usuario")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,13 +26,21 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private String nome;
 
-    Usuario() {
+    @Transient
+    private Cliente cliente;
+
+    @Transient
+    private Funcionario funcionario;
+
+    public Usuario() {
     }
 
-    public Usuario(@NotNull String email, @NotNull String senha, @NotNull String nome) {
+    public Usuario(@NotNull String email, @NotNull String senha, @NotNull String nome, Cliente cliente, Funcionario funcionario) {
         this.email = email;
         this.senha = senha;
         this.nome = nome;
+        this.cliente = cliente;
+        this.funcionario = funcionario;
     }
 
     public Long getId() {
@@ -66,5 +73,23 @@ public class Usuario implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
     }
 }

@@ -1,6 +1,7 @@
 package com.myproject.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "cliente")
-public class Cliente extends Usuario implements Serializable {
+public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -17,20 +18,21 @@ public class Cliente extends Usuario implements Serializable {
     @Column(nullable = false)
     private String telefone;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnore
     private Cartao cartao;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cliente")
-    private List<Compra> compras;
+    @NotNull
+    @Column(nullable = false)
+    private Usuario usuario;
 
     public Cliente() {
     }
 
-    public Cliente(@NotNull String telefone, @NotNull Cartao cartao) {
+    public Cliente(@NotNull String telefone, Cartao cartao, @NotNull Usuario usuario) {
         this.telefone = telefone;
         this.cartao = cartao;
+        this.usuario = usuario;
     }
 
     public String getTelefone() {
@@ -41,6 +43,8 @@ public class Cliente extends Usuario implements Serializable {
         this.telefone = telefone;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     public Cartao getCartao() {
         return cartao;
     }
@@ -49,11 +53,14 @@ public class Cliente extends Usuario implements Serializable {
         this.cartao = cartao;
     }
 
-    public List<Compra> getCompras() {
-        return compras;
+    @Id
+    @OneToOne
+    @JoinColumn(name = "usuario_id")
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setCompras(List<Compra> compras) {
-        this.compras = compras;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
