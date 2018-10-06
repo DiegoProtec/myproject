@@ -26,31 +26,61 @@ public class UsuariosService {
         this.funcionariosRepository = funcionariosRepository;
     }
 
-    public List<Usuario> listar() {
-        return this.usuarioRepository.findAll();
+    public List<Usuario> usuarios() { return this.usuarioRepository.findAll(); }
+
+    public List<Cliente> clientes() {
+        return this.clientesRepository.findAll();
+    }
+
+    public List<Funcionario> funcionarios() {
+        return this.funcionariosRepository.findAll();
     }
 
     public Usuario usuario(Long id) {
         Optional<Usuario> op = this.usuarioRepository.findById(id);
-        if (!op.isPresent()) throw new CustomNotFoundException("id: " + id);
+        if (!op.isPresent()) throw new CustomNotFoundException("Usuário, id: " + id + ", não encontrado.");
+        return op.get();
+    }
+
+    public Cliente cliente(Long id) {
+        Optional<Cliente> op = this.clientesRepository.findById(id);
+        if(!op.isPresent()) throw new CustomNotFoundException("Cliente, id: " + id + ", não encontrado.");
+        return op.get();
+    }
+
+    public Funcionario funcionario(Long id) {
+        Optional<Funcionario> op = this.funcionariosRepository.findById(id);
+        if(!op.isPresent()) throw new CustomNotFoundException("Funcionário, id: " + id + ", não encontrado.");
         return op.get();
     }
 
     public Cliente salvar(UsuarioCliente usuarioCliente) {
         Usuario usuario = usuarioCliente.getUsuario();
-        if (usuario.getId() != null) throw new CustomExistEntity("Usuário já cadastrado.");
+        if (usuario.getId() != null) {
+            Optional<Usuario> op = this.usuarioRepository.findById(usuario.getId());
+            if(op.isPresent()) throw new CustomExistEntity("Usuário já cadastrado.");
+        }
         usuario = this.usuarioRepository.save(usuario);
         Cliente cliente = new Cliente(usuarioCliente.getCliente().getTelefone(), usuario);
-        if (cliente.getId() != null) throw new CustomExistEntity("Cliente já cadastrado.");
+        if (cliente.getId() != null) {
+            Optional<Cliente> op = this.clientesRepository.findById(cliente.getId());
+            if (op.isPresent()) throw new CustomExistEntity("Cliente já cadastrado.");
+        }
         return this.clientesRepository.save(cliente);
     }
 
     public Funcionario salvar(UsuarioFuncionario usuarioFuncionario) {
         Usuario usuario = usuarioFuncionario.getUsuario();
-        if (usuario.getId() != null) throw new CustomExistEntity("Usuário já cadastrado.");
+        if (usuario.getId() != null) {
+            Optional<Usuario> op = this.usuarioRepository.findById(usuario.getId());
+            if(op.isPresent()) throw new CustomExistEntity("Usuário já cadastrado.");
+        }
         usuario = this.usuarioRepository.save(usuario);
-        Funcionario funcionario = new Funcionario(usuarioFuncionario.getUsuario());
-        if (funcionario.getId() != null) throw new CustomExistEntity("Funcionário já cadastrado.");
+        Funcionario funcionario = new Funcionario(usuario);
+        if (funcionario.getId() != null) {
+            Optional<Funcionario> op = this.funcionariosRepository.findById(funcionario.getId());
+            if (op.isPresent()) throw new CustomExistEntity("Funcionário já cadastrado.");
+        }
         return this.funcionariosRepository.save(funcionario);
     }
 }
