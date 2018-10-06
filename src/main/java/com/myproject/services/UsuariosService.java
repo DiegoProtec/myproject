@@ -1,6 +1,8 @@
 package com.myproject.services;
 
-import com.myproject.domain.Usuario;
+import com.myproject.domain.*;
+import com.myproject.repositorys.ClientesRepository;
+import com.myproject.repositorys.FuncionariosRepository;
 import com.myproject.repositorys.UsuarioRepository;
 import com.myproject.resources.exceptions.CustomExistEntity;
 import com.myproject.resources.exceptions.CustomNotFoundException;
@@ -14,41 +16,41 @@ import java.util.Optional;
 public class UsuariosService {
 
     private UsuarioRepository usuarioRepository;
+    private ClientesRepository clientesRepository;
+    private FuncionariosRepository funcionariosRepository;
 
     @Autowired
-    public UsuariosService(UsuarioRepository usuarioRepository) {
+    public UsuariosService(UsuarioRepository usuarioRepository, ClientesRepository clientesRepository, FuncionariosRepository funcionariosRepository) {
         this.usuarioRepository = usuarioRepository;
+        this.clientesRepository = clientesRepository;
+        this.funcionariosRepository = funcionariosRepository;
     }
 
-    public List<Usuario> listar(){
+    public List<Usuario> listar() {
         return this.usuarioRepository.findAll();
     }
 
-    public Usuario usuario(Long id){
+    public Usuario usuario(Long id) {
         Optional<Usuario> op = this.usuarioRepository.findById(id);
-        if(!op.isPresent()) throw new CustomNotFoundException("id: " + id);
+        if (!op.isPresent()) throw new CustomNotFoundException("id: " + id);
         return op.get();
     }
 
-    public Usuario salvar(Usuario usuario){
-        if(usuario.getId() != null){
-            Optional<Usuario> op = this.usuarioRepository.findById(usuario.getId());
-            if(op.isPresent()) throw new CustomExistEntity("Usuário já cadastrado.");
-        }
-        return this.usuarioRepository.save(usuario);
+    public Cliente salvar(UsuarioCliente usuarioCliente) {
+        Usuario usuario = usuarioCliente.getUsuario();
+        if (usuario.getId() != null) throw new CustomExistEntity("Usuário já cadastrado.");
+        usuario = this.usuarioRepository.save(usuario);
+        Cliente cliente = new Cliente(usuarioCliente.getCliente().getTelefone(), usuario);
+        if (cliente.getId() != null) throw new CustomExistEntity("Cliente já cadastrado.");
+        return this.clientesRepository.save(cliente);
     }
 
-    public void atualizar(Usuario usuario){
-        this.existe(usuario);
-        this.usuarioRepository.save(usuario);
-    }
-
-    public void deletar(Long id){
-        Usuario usuario = this.usuario(id);
-        this.usuarioRepository.delete(usuario);
-    }
-
-    private void existe(Usuario usuario){
-        this.usuario(usuario.getId());
+    public Funcionario salvar(UsuarioFuncionario usuarioFuncionario) {
+        Usuario usuario = usuarioFuncionario.getUsuario();
+        if (usuario.getId() != null) throw new CustomExistEntity("Usuário já cadastrado.");
+        usuario = this.usuarioRepository.save(usuario);
+        Funcionario funcionario = new Funcionario(usuarioFuncionario.getUsuario());
+        if (funcionario.getId() != null) throw new CustomExistEntity("Funcionário já cadastrado.");
+        return this.funcionariosRepository.save(funcionario);
     }
 }

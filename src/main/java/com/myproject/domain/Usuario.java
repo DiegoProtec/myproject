@@ -1,45 +1,57 @@
 package com.myproject.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    public static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Column(unique = true, nullable = false)
+    @Email
+    @Size(min = 8, max = 60)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @NotNull
+    @Size(min = 6, max = 20)
     @Column(nullable = false)
     private String senha;
 
     @NotNull
+    @Size(min = 5, max = 120)
     @Column(nullable = false)
     private String nome;
 
-    @Transient
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
     private Cliente cliente;
 
-    @Transient
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
     private Funcionario funcionario;
 
     public Usuario() {
     }
 
-    public Usuario(@NotNull String email, @NotNull String senha, @NotNull String nome, Cliente cliente, Funcionario funcionario) {
+    public Usuario(@NotNull @Email @Size(min = 8, max = 60) String email, @NotNull @Size(min = 6, max = 20) String senha, @NotNull @Size(min = 5, max = 120) String nome, Cliente cliente) {
         this.email = email;
         this.senha = senha;
         this.nome = nome;
         this.cliente = cliente;
+    }
+
+    public Usuario(@NotNull @Email @Size(min = 8, max = 60) String email, @NotNull @Size(min = 6, max = 20) String senha, @NotNull @Size(min = 5, max = 120) String nome, Funcionario funcionario) {
+        this.email = email;
+        this.senha = senha;
+        this.nome = nome;
         this.funcionario = funcionario;
     }
 
@@ -75,7 +87,6 @@ public class Usuario implements Serializable {
         this.nome = nome;
     }
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
     public Cliente getCliente() {
         return cliente;
     }
@@ -84,7 +95,6 @@ public class Usuario implements Serializable {
         this.cliente = cliente;
     }
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
     public Funcionario getFuncionario() {
         return funcionario;
     }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
@@ -13,25 +14,39 @@ public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    private Long id;
+
     @NotNull
+    @Size(min = 11, max = 11)
     @Column(nullable = false)
     private String telefone;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnore
     private Cartao cartao;
 
-    @NotNull
-    @Column(nullable = false)
+    @OneToOne
+    @JoinColumn(name = "cliente_id")
+    @MapsId
     private Usuario usuario;
 
     public Cliente() {
     }
 
-    public Cliente(@NotNull String telefone, Cartao cartao, @NotNull Usuario usuario) {
+    public Cliente(@NotNull @Size(min = 11, max = 11) String telefone, Usuario usuario) {
         this.telefone = telefone;
-        this.cartao = cartao;
         this.usuario = usuario;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTelefone() {
@@ -42,8 +57,6 @@ public class Cliente implements Serializable {
         this.telefone = telefone;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
     public Cartao getCartao() {
         return cartao;
     }
@@ -52,9 +65,6 @@ public class Cliente implements Serializable {
         this.cartao = cartao;
     }
 
-    @Id
-    @OneToOne
-    @JoinColumn(name = "usuario_id")
     public Usuario getUsuario() {
         return usuario;
     }

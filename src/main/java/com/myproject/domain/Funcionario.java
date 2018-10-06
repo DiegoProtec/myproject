@@ -2,7 +2,6 @@ package com.myproject.domain;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -11,20 +10,29 @@ public class Funcionario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull
-    @Column(nullable = false)
+    @Id
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "funcionario_id")
+    @MapsId
     private Usuario usuario;
 
     public Funcionario() {
     }
 
-    public Funcionario(@NotNull Usuario usuario) {
+    public Funcionario(Usuario usuario) {
         this.usuario = usuario;
     }
 
-    @Id
-    @OneToOne
-    @JoinColumn(name = "usuario_id")
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Usuario getUsuario() {
         return usuario;
     }
