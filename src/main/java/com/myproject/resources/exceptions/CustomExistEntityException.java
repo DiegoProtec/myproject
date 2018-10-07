@@ -4,9 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
-public class CustomExistEntity extends RuntimeException {
+public class CustomExistEntityException extends RuntimeException {
 
-    public CustomExistEntity(String message) {
+    public CustomExistEntityException(String message) {
         super(message);
     }
+
 }

@@ -1,5 +1,7 @@
 package com.myproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -18,37 +20,50 @@ public class Usuario implements Serializable {
 
     @NotNull
     @Email
-    @Size(min = 8, max = 60)
+    @Size(min = 8, message = "Mínimo 8 caracteres.")
+    @Size(max = 60, message = "Máximo 60 caracteres.")
     @Column(nullable = false, unique = true)
     private String email;
 
     @NotNull
-    @Size(min = 6, max = 20)
+    @Size(min = 6, message = "Mínimo 6 caracteres.")
+    @Size(max = 20, message = "Máximo 20 caracteres.")
     @Column(nullable = false)
     private String senha;
 
     @NotNull
-    @Size(min = 5, max = 120)
+    @Size(min = 5, message = "Mínimo 5 caracteres.")
+    @Size(max = 120, message = "Máximo 120 caracteres.")
     @Column(nullable = false)
     private String nome;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @JsonIgnore
     private Cliente cliente;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @JsonIgnore
     private Funcionario funcionario;
 
     public Usuario() {
     }
 
-    public Usuario(@NotNull @Email @Size(min = 8, max = 60) String email, @NotNull @Size(min = 6, max = 20) String senha, @NotNull @Size(min = 5, max = 120) String nome, Cliente cliente) {
+    public Usuario(
+            @NotNull @Email @Size(min = 8, message = "Mínimo 8 caracteres.") @Size(max = 60, message = "Máximo 60 caracteres.") String email,
+            @NotNull @Size(min = 6, message = "Mínimo 6 caracteres.") @Size(max = 20, message = "Máximo 20 caracteres.") String senha,
+            @NotNull @Size(min = 5, message = "Mínimo 5 caracteres.") @Size(max = 120, message = "Máximo 120 caracteres.") String nome,
+            Cliente cliente) {
         this.email = email;
         this.senha = senha;
         this.nome = nome;
         this.cliente = cliente;
     }
 
-    public Usuario(@NotNull @Email @Size(min = 8, max = 60) String email, @NotNull @Size(min = 6, max = 20) String senha, @NotNull @Size(min = 5, max = 120) String nome, Funcionario funcionario) {
+    public Usuario(
+            @NotNull @Email @Size(min = 8, message = "Mínimo 8 caracteres.") @Size(max = 60, message = "Máximo 60 caracteres.") String email,
+            @NotNull @Size(min = 6, message = "Mínimo 6 caracteres.") @Size(max = 20, message = "Máximo 20 caracteres.") String senha,
+            @NotNull @Size(min = 5, message = "Mínimo 5 caracteres.") @Size(max = 120, message = "Máximo 120 caracteres.") String nome,
+            Funcionario funcionario) {
         this.email = email;
         this.senha = senha;
         this.nome = nome;

@@ -2,7 +2,7 @@ package com.myproject.services;
 
 import com.myproject.domain.Categoria;
 import com.myproject.repositorys.CategoriasRepository;
-import com.myproject.resources.exceptions.CustomExistEntity;
+import com.myproject.resources.exceptions.CustomExistEntityException;
 import com.myproject.resources.exceptions.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class CategoriasService {
     public Categoria salvar(Categoria categoria) {
         if (categoria.getId() != null) {
             Optional<Categoria> op = this.categoriasRepository.findById(categoria.getId());
-            if (op.isPresent()) throw new CustomExistEntity("A categoria já existe.");
+            if (op.isPresent()) throw new CustomExistEntityException("A categoria já existe.");
         }
         return this.categoriasRepository.save(categoria);
     }

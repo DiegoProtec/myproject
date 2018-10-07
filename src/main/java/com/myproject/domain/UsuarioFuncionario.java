@@ -1,12 +1,16 @@
 package com.myproject.domain;
 
+import javax.validation.Valid;
 import java.io.Serializable;
 
 public class UsuarioFuncionario implements Serializable {
 
     public static final long serialVersionUID = 1L;
 
+    @Valid
     private Usuario usuario;
+
+    @Valid
     private Funcionario funcionario;
 
     public UsuarioFuncionario() {

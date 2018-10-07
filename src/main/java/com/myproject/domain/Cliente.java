@@ -18,7 +18,8 @@ public class Cliente implements Serializable {
     private Long id;
 
     @NotNull
-    @Size(min = 11, max = 11)
+    @Size(min = 11, message = "Mínimo 11 caracteres.")
+    @Size(max = 11, message = "Máximo 11 caracteres.")
     @Column(nullable = false)
     private String telefone;
 
@@ -29,14 +30,16 @@ public class Cliente implements Serializable {
     private Cartao cartao;
 
     @OneToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false)
     @MapsId
     private Usuario usuario;
 
     public Cliente() {
     }
 
-    public Cliente(@NotNull @Size(min = 11, max = 11) String telefone, Usuario usuario) {
+    public Cliente(
+            @NotNull @Size(min = 11, message = "Mínimo 11 caracteres.") @Size(max = 11, message = "Máximo 11 caracteres.") String telefone,
+            Usuario usuario) {
         this.telefone = telefone;
         this.usuario = usuario;
     }

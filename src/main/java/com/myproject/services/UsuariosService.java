@@ -4,10 +4,11 @@ import com.myproject.domain.*;
 import com.myproject.repositorys.ClientesRepository;
 import com.myproject.repositorys.FuncionariosRepository;
 import com.myproject.repositorys.UsuarioRepository;
-import com.myproject.resources.exceptions.CustomExistEntity;
+import com.myproject.resources.exceptions.CustomExistEntityException;
 import com.myproject.resources.exceptions.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,32 +55,34 @@ public class UsuariosService {
         return op.get();
     }
 
+    @Transactional
     public Cliente salvar(UsuarioCliente usuarioCliente) {
         Usuario usuario = usuarioCliente.getUsuario();
         if (usuario.getId() != null) {
             Optional<Usuario> op = this.usuarioRepository.findById(usuario.getId());
-            if(op.isPresent()) throw new CustomExistEntity("Usuário já cadastrado.");
+            if(op.isPresent()) throw new CustomExistEntityException("Usuário já cadastrado.");
         }
         usuario = this.usuarioRepository.save(usuario);
         Cliente cliente = new Cliente(usuarioCliente.getCliente().getTelefone(), usuario);
         if (cliente.getId() != null) {
             Optional<Cliente> op = this.clientesRepository.findById(cliente.getId());
-            if (op.isPresent()) throw new CustomExistEntity("Cliente já cadastrado.");
+            if (op.isPresent()) throw new CustomExistEntityException("Cliente já cadastrado.");
         }
         return this.clientesRepository.save(cliente);
     }
 
+    @Transactional
     public Funcionario salvar(UsuarioFuncionario usuarioFuncionario) {
         Usuario usuario = usuarioFuncionario.getUsuario();
         if (usuario.getId() != null) {
             Optional<Usuario> op = this.usuarioRepository.findById(usuario.getId());
-            if(op.isPresent()) throw new CustomExistEntity("Usuário já cadastrado.");
+            if(op.isPresent()) throw new CustomExistEntityException("Usuário já cadastrado.");
         }
         usuario = this.usuarioRepository.save(usuario);
         Funcionario funcionario = new Funcionario(usuario);
         if (funcionario.getId() != null) {
             Optional<Funcionario> op = this.funcionariosRepository.findById(funcionario.getId());
-            if (op.isPresent()) throw new CustomExistEntity("Funcionário já cadastrado.");
+            if (op.isPresent()) throw new CustomExistEntityException("Funcionário já cadastrado.");
         }
         return this.funcionariosRepository.save(funcionario);
     }

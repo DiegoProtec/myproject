@@ -4,7 +4,7 @@ import com.myproject.domain.Autor;
 import com.myproject.domain.Categoria;
 import com.myproject.domain.Livro;
 import com.myproject.repositorys.LivrosRepository;
-import com.myproject.resources.exceptions.CustomExistEntity;
+import com.myproject.resources.exceptions.CustomExistEntityException;
 import com.myproject.resources.exceptions.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class LivrosService {
     public Livro salvar(Livro livro) {
         if (livro.getId() != null) {
             Optional<Livro> op = this.livrosRepository.findById(livro.getId());
-            if (op.isPresent()) throw new CustomExistEntity("O livro já existe.");
+            if (op.isPresent()) throw new CustomExistEntityException("O livro já existe.");
         }
         return this.livrosRepository.save(livro);
     }

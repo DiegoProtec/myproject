@@ -14,7 +14,7 @@ public class Funcionario implements Serializable {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "funcionario_id")
+    @JoinColumn(name = "funcionario_id", nullable = false)
     @MapsId
     private Usuario usuario;
 

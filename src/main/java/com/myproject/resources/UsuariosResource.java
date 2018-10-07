@@ -54,7 +54,7 @@ public class UsuariosResource {
     }
 
     @PostMapping("/clientes")
-    public ResponseEntity<Void> salvarCliente(@RequestBody @Valid UsuarioCliente usuarioCliente) {
+    public ResponseEntity<Void> salvarCliente(@Valid @RequestBody UsuarioCliente usuarioCliente) {
         Cliente cliente = this.usuariosService.salvar(usuarioCliente);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(cliente.getId()).toUri();
@@ -62,7 +62,7 @@ public class UsuariosResource {
     }
 
     @PostMapping("/funcionarios")
-    public ResponseEntity<Void> salvarFuncionario(@RequestBody @Valid UsuarioFuncionario usuarioFuncionario) {
+    public ResponseEntity<Void> salvarFuncionario(@Valid @RequestBody UsuarioFuncionario usuarioFuncionario) {
         Funcionario funcionario = this.usuariosService.salvar(usuarioFuncionario);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(funcionario.getId()).toUri();

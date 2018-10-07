@@ -1,12 +1,18 @@
 package com.myproject.domain;
 
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.validation.Valid;
 import java.io.Serializable;
 
 public class UsuarioCliente implements Serializable {
 
     public static final long serialVersionUID = 1L;
 
+    @Valid
     private Usuario usuario;
+
+    @Valid
     private Cliente cliente;
 
     public UsuarioCliente() {

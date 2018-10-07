@@ -2,7 +2,7 @@ package com.myproject.services;
 
 import com.myproject.domain.Autor;
 import com.myproject.repositorys.AutoresRepository;
-import com.myproject.resources.exceptions.CustomExistEntity;
+import com.myproject.resources.exceptions.CustomExistEntityException;
 import com.myproject.resources.exceptions.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class AutoresServices {
     public Autor salvar(Autor autor) {
         if (autor.getId() != null) {
             Optional<Autor> op = this.autoresRepository.findById(autor.getId());
-            if (op.isPresent()) throw new CustomExistEntity("O autor já existe.");
+            if (op.isPresent()) throw new CustomExistEntityException("O autor já existe.");
         }
         return this.autoresRepository.save(autor);
     }
