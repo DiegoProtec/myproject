@@ -1,9 +1,7 @@
 package com.myproject.repositorys;
 
 import com.myproject.domains.Usuario;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 }
