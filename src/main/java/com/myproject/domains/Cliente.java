@@ -30,7 +30,7 @@ public class Cliente extends BaseEntity<Long> {
 
     @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = Cliente.COD_ID)
+    @JoinColumn(name = Cartao.COD_ID)
     @JsonIgnore
     private Cartao cartao;
 

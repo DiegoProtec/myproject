@@ -24,13 +24,13 @@ public class Carrinho extends BaseEntity<Long> {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = Livro.COD_ID, nullable = false)
+    @JoinColumn(name = Livro.COD_ID, nullable = false, insertable = false, updatable = false)
     @JsonIgnore
     private Livro livro;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = Compra.COD_ID, nullable = false)
+    @JoinColumn(name = Compra.COD_ID, nullable = false, insertable = false, updatable = false)
     @JsonIgnore
     private Compra compra;
 
