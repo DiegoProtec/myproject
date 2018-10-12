@@ -10,11 +10,11 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "TB_COMPRA")
 @SequenceGenerator(name = "seqCompra", sequenceName = "seq_compra", allocationSize = 1)

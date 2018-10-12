@@ -10,11 +10,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "TB_LIVRO")
 @SequenceGenerator(name = "seqLivro", sequenceName = "seq_livro", allocationSize = 1)
@@ -34,6 +34,7 @@ public class Livro extends BaseEntity<Long> {
     @Column(nullable = false)
     private String titulo;
 
+    @NonNull
     @Size(max = 150, message = "Máximo 150 caracteres.")
     @Column
     private String descricao;

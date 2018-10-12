@@ -9,11 +9,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "TB_USUARIO")
 @SequenceGenerator(name = "seqUsuario", sequenceName = "seq_usuario", allocationSize = 1)
@@ -46,10 +46,12 @@ public class Usuario extends BaseEntity<Long> {
     @Column(nullable = false)
     private String nome;
 
+    @NonNull
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
     @JsonIgnore
     private Cliente cliente;
 
+    @NonNull
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
     @JsonIgnore
     private Funcionario funcionario;

@@ -5,11 +5,11 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "TB_PAGAMENTO")
 @SequenceGenerator(name = "seqPagamento", sequenceName = "seq_pagamento", allocationSize = 1)
@@ -26,4 +26,5 @@ public class Pagamento extends BaseEntity<Long> {
     @NonNull
     @OneToMany(mappedBy = "pagamento", cascade = {CascadeType.DETACH}, fetch = FetchType.LAZY)
     private List<Compra> compras;
+
 }

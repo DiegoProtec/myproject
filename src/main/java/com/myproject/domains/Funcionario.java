@@ -1,16 +1,18 @@
 package com.myproject.domains;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "TB_FUNCIONARIO")
 public class Funcionario extends BaseEntity<Long> {
@@ -27,4 +29,10 @@ public class Funcionario extends BaseEntity<Long> {
     @MapsId
     private Usuario usuario;
 
+    public Funcionario() {
+    }
+
+    public Funcionario(@NotNull Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

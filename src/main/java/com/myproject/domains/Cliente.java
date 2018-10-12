@@ -8,11 +8,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Getter
-@Setter
+@Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "TB_CLIENTE")
 public class Cliente extends BaseEntity<Long> {
@@ -29,6 +28,7 @@ public class Cliente extends BaseEntity<Long> {
     @Column(nullable = false)
     private String telefone;
 
+    @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = Cliente.COD_ID)
     @JsonIgnore
@@ -40,4 +40,11 @@ public class Cliente extends BaseEntity<Long> {
     @MapsId
     private Usuario usuario;
 
+    public Cliente() {
+    }
+
+    public Cliente(@NotBlank @Size(min = 11, message = "Mínimo 11 caracteres.") @Size(max = 11, message = "Máximo 11 caracteres.") String telefone, @NotNull Usuario usuario) {
+        this.telefone = telefone;
+        this.usuario = usuario;
+    }
 }

@@ -8,11 +8,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "TB_BOLETO")
 public class Boleto extends BaseEntity<Long> {
@@ -34,6 +34,7 @@ public class Boleto extends BaseEntity<Long> {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate vencimento;
 
+    @NotNull
     @OneToOne
     @JoinColumn(name = COD_ID, nullable = false)
     @MapsId
