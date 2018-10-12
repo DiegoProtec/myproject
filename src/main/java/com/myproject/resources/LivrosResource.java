@@ -1,8 +1,8 @@
 package com.myproject.resources;
 
-import com.myproject.domain.Autor;
-import com.myproject.domain.Categoria;
-import com.myproject.domain.Livro;
+import com.myproject.domains.Autor;
+import com.myproject.domains.Categoria;
+import com.myproject.domains.Livro;
 import com.myproject.services.LivrosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

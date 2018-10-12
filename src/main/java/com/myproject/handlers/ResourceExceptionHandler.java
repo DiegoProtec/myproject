@@ -1,7 +1,7 @@
-package com.myproject.handler;
+package com.myproject.handlers;
 
-import com.myproject.domain.ErrorDetails;
-import com.myproject.domain.ErrorMessage;
+import com.myproject.domains.ErrorDetails;
+import com.myproject.domains.ErrorMessage;
 import com.myproject.resources.exceptions.CustomExistEntityException;
 import com.myproject.resources.exceptions.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 

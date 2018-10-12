@@ -1,6 +1,6 @@
 package com.myproject.repositorys;
 
-import com.myproject.domain.Livro;
+import com.myproject.domains.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

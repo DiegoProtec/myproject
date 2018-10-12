@@ -1,4 +1,4 @@
-package com.myproject.domain;
+package com.myproject.domains;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

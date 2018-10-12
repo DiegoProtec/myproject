@@ -1,6 +1,6 @@
 package com.myproject.resources;
 
-import com.myproject.domain.Categoria;
+import com.myproject.domains.Categoria;
 import com.myproject.services.CategoriasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

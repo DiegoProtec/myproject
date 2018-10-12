@@ -1,8 +1,8 @@
 package com.myproject.services;
 
-import com.myproject.domain.Autor;
-import com.myproject.domain.Categoria;
-import com.myproject.domain.Livro;
+import com.myproject.domains.Autor;
+import com.myproject.domains.Categoria;
+import com.myproject.domains.Livro;
 import com.myproject.repositorys.LivrosRepository;
 import com.myproject.resources.exceptions.CustomExistEntityException;
 import com.myproject.resources.exceptions.CustomNotFoundException;

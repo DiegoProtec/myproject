@@ -1,4 +1,4 @@
-package com.myproject.domain;
+package com.myproject.domains;
 
 public class ErrorDetails {
 

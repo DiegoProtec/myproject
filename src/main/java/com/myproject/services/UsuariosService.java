@@ -1,6 +1,6 @@
 package com.myproject.services;
 
-import com.myproject.domain.*;
+import com.myproject.domains.*;
 import com.myproject.repositorys.ClientesRepository;
 import com.myproject.repositorys.FuncionariosRepository;
 import com.myproject.repositorys.UsuarioRepository;

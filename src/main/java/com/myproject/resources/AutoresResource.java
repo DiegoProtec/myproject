@@ -1,6 +1,6 @@
 package com.myproject.resources;
 
-import com.myproject.domain.Autor;
+import com.myproject.domains.Autor;
 import com.myproject.services.AutoresServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

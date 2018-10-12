@@ -1,6 +1,6 @@
 package com.myproject.services;
 
-import com.myproject.domain.Categoria;
+import com.myproject.domains.Categoria;
 import com.myproject.repositorys.CategoriasRepository;
 import com.myproject.resources.exceptions.CustomExistEntityException;
 import com.myproject.resources.exceptions.CustomNotFoundException;

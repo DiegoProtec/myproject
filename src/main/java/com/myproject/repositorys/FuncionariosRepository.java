@@ -1,6 +1,6 @@
 package com.myproject.repositorys;
 
-import com.myproject.domain.Funcionario;
+import com.myproject.domains.Funcionario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

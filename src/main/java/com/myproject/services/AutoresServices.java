@@ -1,6 +1,6 @@
 package com.myproject.services;
 
-import com.myproject.domain.Autor;
+import com.myproject.domains.Autor;
 import com.myproject.repositorys.AutoresRepository;
 import com.myproject.resources.exceptions.CustomExistEntityException;
 import com.myproject.resources.exceptions.CustomNotFoundException;

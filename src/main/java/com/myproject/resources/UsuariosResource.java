@@ -1,6 +1,6 @@
 package com.myproject.resources;
 
-import com.myproject.domain.*;
+import com.myproject.domains.*;
 import com.myproject.services.UsuariosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
