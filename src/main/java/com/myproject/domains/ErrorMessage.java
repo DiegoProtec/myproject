@@ -1,43 +1,35 @@
 package com.myproject.domains;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
+@Builder
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ErrorMessage {
+public class ErrorMessage implements Serializable {
 
-    private final int status;
-    private final String error;
-    private final String message;
+    private static final long serialVersionUID = 4816243829840494960L;
 
+    private Long timestamp;
+    private int status;
+    private String titulo;
+    private String mensagem;
+
+    @NonNull
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<String> errors;
 
-    public ErrorMessage(int status, String error, String message) {
+    public ErrorMessage(Long timestamp, int status, String titulo, String mensagem) {
+        this.timestamp = timestamp;
         this.status = status;
-        this.error = error;
-        this.message = message;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public List<String> getErrors() {
-        return errors;
-    }
-
-    public void setErrors(List<String> errors) {
-        this.errors = errors;
+        this.titulo = titulo;
+        this.mensagem = mensagem;
     }
 }

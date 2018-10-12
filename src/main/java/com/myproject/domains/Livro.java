@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,11 +29,13 @@ public class Livro extends BaseEntity<Long> {
     private Long id;
 
     @NotBlank
+    @Size(min = 2, message = "Mínimo 2 caracteres.")
+    @Size(max = 150, message = "Máximo 150 caracteres.")
     @Column(nullable = false)
     private String titulo;
 
-    @NotBlank
-    @Column(nullable = false)
+    @Size(max = 150, message = "Máximo 150 caracteres.")
+    @Column
     private String descricao;
 
     @NotNull

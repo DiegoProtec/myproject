@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Getter
@@ -23,6 +24,8 @@ public class Boleto extends BaseEntity<Long> {
     private Long id;
 
     @NotNull
+    @Size(min = 8, message = "Mínimo 8 caracteres.")
+    @Size(max = 14, message = "Máximo 14 caracteres.")
     @Column(unique = true, nullable = false)
     private String codigo;
 

@@ -1,5 +1,6 @@
 package com.myproject.domains;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
@@ -40,6 +41,7 @@ public class Compra extends BaseEntity<Long>{
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = Pagamento.COD_ID, nullable = false)
+    @JsonIgnore
     private Pagamento pagamento;
 
     @NonNull

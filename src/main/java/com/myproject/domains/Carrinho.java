@@ -1,5 +1,6 @@
 package com.myproject.domains;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -26,11 +27,13 @@ public class Carrinho extends BaseEntity<Long> {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = Livro.COD_ID, nullable = false)
+    @JsonIgnore
     private Livro livro;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = Compra.COD_ID, nullable = false)
+    @JsonIgnore
     private Compra compra;
 
     @NotNull

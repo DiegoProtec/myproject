@@ -1,6 +1,5 @@
 package com.myproject.handlers;
 
-import com.myproject.domains.ErrorDetails;
 import com.myproject.domains.ErrorMessage;
 import com.myproject.resources.exceptions.CustomExistEntityException;
 import com.myproject.resources.exceptions.CustomNotFoundException;
@@ -34,23 +33,25 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(CustomNotFoundException.class)
-    protected ResponseEntity<Object> resourceNotFound(CustomNotFoundException e, WebRequest request) {
-        ErrorDetails error = new ErrorDetails(
-                System.currentTimeMillis(), 404L,
-                "Entidade não encontrada.",
+    protected ResponseEntity<Object> resourceNotFound(CustomNotFoundException ex, HttpStatus status, WebRequest request) {
+        ErrorMessage msg = new ErrorMessage(
+                System.currentTimeMillis(),
+                status.value(),
+                status.getReasonPhrase(),
                 "http://errors.livraria.com/404: "
         );
-        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+        return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CustomExistEntityException.class)
-    protected ResponseEntity<Object> resourceConflict(CustomExistEntityException e, WebRequest request) {
-        ErrorDetails error = new ErrorDetails(
-                System.currentTimeMillis(), 404L,
-                "Entidade já persistida.",
+    protected ResponseEntity<Object> resourceConflict(CustomExistEntityException ex, HttpStatus status, WebRequest request) {
+        ErrorMessage msg = new ErrorMessage(
+                System.currentTimeMillis(),
+                status.value(),
+                status.getReasonPhrase(),
                 "http://errors.livraria.com/409"
         );
-        return new ResponseEntity(error, HttpStatus.CONFLICT);
+        return new ResponseEntity(msg, HttpStatus.CONFLICT);
     }
 
     @Override
@@ -71,13 +72,16 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
                     mensagens.add("Campo " + campo + ": " + error);
                 }
         );
+
         ErrorMessage msg = new ErrorMessage(
+                System.currentTimeMillis(),
                 status.value(),
                 status.getReasonPhrase(),
-                "Validção falhou ao enviar os dados."
+                "Augmentos inválidos."
         );
 
         msg.setErrors(mensagens);
+
         return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
     }
 }
