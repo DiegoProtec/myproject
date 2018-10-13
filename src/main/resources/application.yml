@@ -1,16 +1,16 @@
 
-
 spring:
   datasource:
-    url: jdbc:h2:file:C:\Users\LENOVO\livraria;INIT=CREATE SCHEMA IF NOT EXISTS livraria
+    url: jdbc:h2:file:C:\Users\LENOVO\livraria;MODE=MSSQLServer;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=FALSE;INIT=CREATE SCHEMA IF NOT EXISTS livraria
     platform: h2
     username: sa
     password:
     driverClassName: org.h2.Driver
+
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         show_sql: true
@@ -20,7 +20,7 @@ spring:
   h2:
     console:
       enabled: true
-      path: /console
-      settings:
-        trace: false
-        web-allow-others: false
+      path: /h2
+
+server:
+  port: 8090

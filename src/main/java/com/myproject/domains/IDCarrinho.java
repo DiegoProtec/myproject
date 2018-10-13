@@ -6,13 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@Builder(toBuilder = true)
 @Embeddable
-public class IDCarrinho extends BaseEntity<Long>{
+public class IDCarrinho extends BaseEntity<Long> {
 
     private static final long serialVersionUID = 2219599428297571445L;
 

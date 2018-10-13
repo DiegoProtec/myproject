@@ -1,8 +1,9 @@
 package com.myproject.resources;
 
-import com.myproject.domains.*;
+import com.myproject.domains.Cliente;
+import com.myproject.domains.Usuario;
+import com.myproject.domains.UsuarioCliente;
 import com.myproject.dtos.UsuarioClienteDTO;
-import com.myproject.dtos.UsuarioFuncionarioDTO;
 import com.myproject.mappers.*;
 import com.myproject.services.ClienteService;
 import com.myproject.services.FuncionarioService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
 
@@ -23,12 +25,13 @@ public class UsuariosResource {
 
     private final UsuarioClienteMapper usuarioClienteMapper;
     private final UsuarioFuncionarioMapper usuarioFuncionarioMapper;
-    private final UsuarioMapper usuarioMapper;
-    private final ClienteMapper clienteMapper;
-    private final FuncionarioMapper funcionarioMapper;
+
     private final UsuariosService usuariosService;
+    private final UsuarioMapper usuarioMapper;
     private final ClienteService clienteService;
+    private final ClienteMapper clienteMapper;
     private final FuncionarioService funcionarioService;
+    private final FuncionarioMapper funcionarioMapper;
 
     public UsuariosResource(UsuarioClienteMapper usuarioClienteMapper, UsuarioFuncionarioMapper usuarioFuncionarioMapper, UsuarioMapper usuarioMapper, ClienteMapper clienteMapper, FuncionarioMapper funcionarioMapper, UsuariosService usuariosService, ClienteService clienteService, FuncionarioService funcionarioService) {
         this.usuarioClienteMapper = usuarioClienteMapper;
@@ -42,8 +45,8 @@ public class UsuariosResource {
     }
 
     @PostMapping("/clientes")
-    public ResponseEntity<Void> salvarCliente(@RequestBody UsuarioClienteDTO usuarioClienteDTO){
-        UsuarioCliente usuarioCliente = usuarioClienteMapper.toEntity(usuarioClienteDTO);
+    public ResponseEntity<Void> salvarCliente(@RequestBody @Valid UsuarioClienteDTO dto) {
+        UsuarioCliente usuarioCliente = usuarioClienteMapper.toEntity(dto);
         Usuario usuario = usuarioCliente.getUsuario();
         Cliente cliente = usuarioCliente.getCliente();
         Optional<Usuario> usuarioOptional = usuariosService.salvar(usuario);
@@ -54,18 +57,18 @@ public class UsuariosResource {
         return ResponseEntity.created(uri).build();
     }
 
-    @PostMapping("/funcionarios")
-    public ResponseEntity<Void> salvarFuncionario(@RequestBody UsuarioFuncionarioDTO usuarioFuncionarioDTO){
-        UsuarioFuncionario usuarioFuncionario = usuarioFuncionarioMapper.toEntity(usuarioFuncionarioDTO);
-        Usuario usuario = usuarioFuncionario.getUsuario();
-        Funcionario funcionario = usuarioFuncionario.getFuncionario();
-        Optional<Usuario> usuarioOptional = usuariosService.salvar(usuario);
-        funcionario.setUsuario(usuarioOptional.get());
-        Optional<Funcionario> funcionarioOptional = funcionarioService.salvar(funcionario);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(funcionarioOptional.get().getId()).toUri();
-        return ResponseEntity.created(uri).build();
-    }
+//    @PostMapping("/funcionarios")
+//    public ResponseEntity<Void> salvarFuncionario(@RequestBody @ModelAttribute("dto") UsuarioFuncionarioDTO dto) {
+//        UsuarioFuncionario usuarioFuncionario = usuarioFuncionarioMapper.toEntity(dto);
+//        Usuario usuario = usuarioFuncionario.getUsuario();
+//        Funcionario funcionario = usuarioFuncionario.getFuncionario();
+//        Optional<Usuario> usuarioOptional = usuariosService.salvar(usuario);
+//        funcionario.setUsuario(usuarioOptional.get());
+//        Optional<Funcionario> funcionarioOptional = funcionarioService.salvar(funcionario);
+//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+//                .path("/{id}").buildAndExpand(funcionarioOptional.get().getId()).toUri();
+//        return ResponseEntity.created(uri).build();
+//    }
 
 //
 //    @GetMapping

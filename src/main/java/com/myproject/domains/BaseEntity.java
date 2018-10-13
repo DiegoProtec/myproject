@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntity<I extends Serializable>  implements EntityModel{
+public abstract class BaseEntity<I extends Serializable> implements EntityModel {
 
     private static final long serialVersionUID = -4093722629218811905L;
 
@@ -30,7 +30,7 @@ public abstract class BaseEntity<I extends Serializable>  implements EntityModel
     @Override
     public String toString() {
         String entidade = this.getClass().getSimpleName();
-        return "Entidade [ "+entidade+" ] {" +
+        return "Entidade [ " + entidade + " ] {" +
                 "id=" + getId() + '}';
     }
 

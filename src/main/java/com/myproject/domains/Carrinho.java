@@ -2,17 +2,15 @@ package com.myproject.domains;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@Builder(toBuilder = true)
 @Entity
 @Table(name = "TB_LIVRO_COMPRA")
 public class Carrinho extends BaseEntity<Long> {
@@ -22,25 +20,21 @@ public class Carrinho extends BaseEntity<Long> {
     @EmbeddedId
     private IDCarrinho id;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = Livro.COD_ID, nullable = false, insertable = false, updatable = false)
     @JsonIgnore
     private Livro livro;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = Compra.COD_ID, nullable = false, insertable = false, updatable = false)
     @JsonIgnore
     private Compra compra;
 
-    @NotNull
-    @NumberFormat
+
     @Column(nullable = false)
     private Integer quantidade;
 
-    @NotNull
-    @NumberFormat(style = NumberFormat.Style.CURRENCY)
+
     @Column(nullable = false)
     private Double valorTotalItem;
 

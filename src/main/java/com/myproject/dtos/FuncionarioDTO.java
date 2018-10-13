@@ -1,13 +1,17 @@
 package com.myproject.dtos;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 public class FuncionarioDTO implements Serializable {
 
-    private static final long serialVersionUID = 8158743028506563893L;
-
+    private static final long serialVersionUID = -7246676034653163571L;
     private Long id;
+
 }

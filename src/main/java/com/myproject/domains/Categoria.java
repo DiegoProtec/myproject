@@ -3,14 +3,12 @@ package com.myproject.domains;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@Builder(toBuilder = true)
 @Entity
 @Table(name = "TB_CATEGORIA")
 @SequenceGenerator(name = "seqCategoria", sequenceName = "seq_categoria", allocationSize = 1)
@@ -24,9 +22,6 @@ public class Categoria extends BaseEntity<Long> {
     @Column(name = COD_ID)
     private Long id;
 
-    @NotBlank
-    @Size(min = 2, message = "Mínimo 2 caracteres.")
-    @Size(max = 150, message = "Máximo 150 caracteres.")
     @Column(nullable = false)
     private String categoria;
 

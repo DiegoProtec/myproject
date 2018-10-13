@@ -1,17 +1,16 @@
 package com.myproject.domains;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
 
-@Data
-@Builder
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorMessage implements Serializable {
 

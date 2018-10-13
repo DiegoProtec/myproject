@@ -1,14 +1,22 @@
 package com.myproject.dtos;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.validation.Valid;
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 public class UsuarioClienteDTO implements Serializable {
 
-    private static final long serialVersionUID = 3923847538161897589L;
+    private static final long serialVersionUID = -4090951294092040524L;
+
+    @Valid
     private UsuarioDTO usuario;
 
+    @Valid
     private ClienteDTO cliente;
 }

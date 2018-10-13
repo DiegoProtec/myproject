@@ -5,11 +5,11 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@Builder(toBuilder = true)
 @Entity
 @Table(name = "TB_PAGAMENTO")
 @SequenceGenerator(name = "seqPagamento", sequenceName = "seq_pagamento", allocationSize = 1)
@@ -23,8 +23,7 @@ public class Pagamento extends BaseEntity<Long> {
     @Column(name = COD_ID)
     private Long id;
 
-    @NonNull
-    @OneToMany(mappedBy = "pagamento", cascade = {CascadeType.DETACH}, fetch = FetchType.LAZY)
-    private List<Compra> compras;
+//    @OneToMany(mappedBy = "pagamento", cascade = {CascadeType.DETACH}, fetch = FetchType.LAZY)
+//    private List<Compra> compras;
 
 }

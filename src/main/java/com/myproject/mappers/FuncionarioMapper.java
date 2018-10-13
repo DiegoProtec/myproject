@@ -6,5 +6,5 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FuncionarioMapper extends BaseMapper<Funcionario, FuncionarioDTO>{
+public interface FuncionarioMapper extends BaseMapper<Funcionario, FuncionarioDTO> {
 }
