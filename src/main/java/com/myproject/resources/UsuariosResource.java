@@ -8,13 +8,16 @@ import com.myproject.mappers.UsuarioFuncionarioMapper;
 import com.myproject.services.ClienteService;
 import com.myproject.services.FuncionarioService;
 import com.myproject.services.UsuariosService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -61,43 +64,29 @@ public class UsuariosResource {
     }
 
 
-//    @GetMapping
-//    public ResponseEntity<List<Usuario>> usuarios() {
-//        return ResponseEntity.status(HttpStatus.OK).body(this.usuariosService.usuarios());
-//    }
-//
-//    @GetMapping("/clientes")
-//    public ResponseEntity<List<Cliente>> clientes() {
-//        return ResponseEntity.status(HttpStatus.OK).body(this.usuariosService.clientes());
-//    }
-//
-//    @GetMapping("/funcionarios")
-//    public ResponseEntity<List<Funcionario>> funcionarios() {
-//        return ResponseEntity.status(HttpStatus.OK).body(this.usuariosService.funcionarios());
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Usuario> usuario(@PathVariable("id") Long id) {
-//        return ResponseEntity.status(HttpStatus.OK).body(this.usuariosService.usuario(id));
-//    }
-//
-//    @GetMapping("/clientes/{id}")
-//    public ResponseEntity<Cliente> cliente(@PathVariable("id") Long id) {
-//        return ResponseEntity.status(HttpStatus.OK).body(this.usuariosService.cliente(id));
-//    }
-//
-//    @GetMapping("/funcionarios/{id}")
-//    public ResponseEntity<Funcionario> funcionario(@PathVariable("id") Long id) {
-//        return ResponseEntity.status(HttpStatus.OK).body(this.usuariosService.funcionario(id));
-//    }
-//
-//    @PostMapping("/funcionarios")
-//    public ResponseEntity<Void> salvarFuncionario(@Valid @RequestBody UsuarioFuncionario usuarioFuncionario) {
-//        Funcionario funcionario = this.usuariosService.salvar(usuarioFuncionario);
-//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-//                .path("/{id}").buildAndExpand(funcionario.getId()).toUri();
-//        return ResponseEntity.created(uri).build();
-//    }
+    @GetMapping("/clientes")
+    public ResponseEntity<List<Cliente>> clientes() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                this.clienteService.listar()
+                .collect(Collectors.toList())
+        );
+    }
+
+    @GetMapping("/funcionarios")
+    public ResponseEntity<List<Funcionario>> funcionarios() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                this.funcionarioService.listar()
+                        .collect(Collectors.toList())
+        );
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Usuario>> usuarios() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                this.usuariosService.listar()
+                        .collect(Collectors.toList())
+        );
+    }
 
     private ResponseEntity<Void> salvarCliente(UsuarioCliente usuarioCliente) {
         Usuario usuario = usuarioCliente.getUsuario();
