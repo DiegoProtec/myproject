@@ -20,14 +20,14 @@ public class FuncionarioService extends AbstractCrudService<Funcionario, Long, F
         return super.listar();
     }
 
-    public Optional<Funcionario> funcionario(Long id) {
-        Optional<Funcionario> funcionario = super.buscarPorId(id);
+    public Funcionario funcionario(Long id) {
+        Optional<Funcionario> funcionario = Optional.of(super.buscarPorId(id));
         if (!funcionario.isPresent()) throw new CustomNotFoundException("Funcionário, id: " + id + "não encontrado.");
-        return funcionario;
+        return funcionario.get();
     }
 
     @Transactional
-    public Optional<Funcionario> salvar(Funcionario funcionario) {
+    public Funcionario salvar(Funcionario funcionario) {
         return super.salvar(funcionario);
     }
 

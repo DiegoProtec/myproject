@@ -1,18 +1,15 @@
 package com.myproject.resources;
 
-import com.myproject.domains.Cliente;
-import com.myproject.domains.Usuario;
-import com.myproject.domains.UsuarioCliente;
+import com.myproject.domains.*;
 import com.myproject.dtos.UsuarioClienteDTO;
-import com.myproject.mappers.*;
+import com.myproject.dtos.UsuarioFuncionarioDTO;
+import com.myproject.mappers.UsuarioClienteMapper;
+import com.myproject.mappers.UsuarioFuncionarioMapper;
 import com.myproject.services.ClienteService;
 import com.myproject.services.FuncionarioService;
 import com.myproject.services.UsuariosService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -25,20 +22,13 @@ public class UsuariosResource {
 
     private final UsuarioClienteMapper usuarioClienteMapper;
     private final UsuarioFuncionarioMapper usuarioFuncionarioMapper;
-
     private final UsuariosService usuariosService;
-    private final UsuarioMapper usuarioMapper;
     private final ClienteService clienteService;
-    private final ClienteMapper clienteMapper;
     private final FuncionarioService funcionarioService;
-    private final FuncionarioMapper funcionarioMapper;
 
-    public UsuariosResource(UsuarioClienteMapper usuarioClienteMapper, UsuarioFuncionarioMapper usuarioFuncionarioMapper, UsuarioMapper usuarioMapper, ClienteMapper clienteMapper, FuncionarioMapper funcionarioMapper, UsuariosService usuariosService, ClienteService clienteService, FuncionarioService funcionarioService) {
+    public UsuariosResource(UsuarioClienteMapper usuarioClienteMapper, UsuarioFuncionarioMapper usuarioFuncionarioMapper, UsuariosService usuariosService, ClienteService clienteService, FuncionarioService funcionarioService) {
         this.usuarioClienteMapper = usuarioClienteMapper;
         this.usuarioFuncionarioMapper = usuarioFuncionarioMapper;
-        this.usuarioMapper = usuarioMapper;
-        this.clienteMapper = clienteMapper;
-        this.funcionarioMapper = funcionarioMapper;
         this.usuariosService = usuariosService;
         this.clienteService = clienteService;
         this.funcionarioService = funcionarioService;
@@ -46,31 +36,31 @@ public class UsuariosResource {
 
     @PostMapping("/clientes")
     public ResponseEntity<Void> salvarCliente(@RequestBody @Valid UsuarioClienteDTO dto) {
-        UsuarioCliente usuarioCliente = usuarioClienteMapper.toEntity(dto);
-        Usuario usuario = usuarioCliente.getUsuario();
-        Cliente cliente = usuarioCliente.getCliente();
-        Optional<Usuario> usuarioOptional = usuariosService.salvar(usuario);
-        cliente.setUsuario(usuarioOptional.get());
-        Optional<Cliente> clienteOptional = clienteService.salvar(cliente);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(clienteOptional.get().getId()).toUri();
-        return ResponseEntity.created(uri).build();
+        return this.salvarCliente(usuarioClienteMapper.toEntity(dto));
     }
 
-//    @PostMapping("/funcionarios")
-//    public ResponseEntity<Void> salvarFuncionario(@RequestBody @ModelAttribute("dto") UsuarioFuncionarioDTO dto) {
-//        UsuarioFuncionario usuarioFuncionario = usuarioFuncionarioMapper.toEntity(dto);
-//        Usuario usuario = usuarioFuncionario.getUsuario();
-//        Funcionario funcionario = usuarioFuncionario.getFuncionario();
-//        Optional<Usuario> usuarioOptional = usuariosService.salvar(usuario);
-//        funcionario.setUsuario(usuarioOptional.get());
-//        Optional<Funcionario> funcionarioOptional = funcionarioService.salvar(funcionario);
-//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-//                .path("/{id}").buildAndExpand(funcionarioOptional.get().getId()).toUri();
-//        return ResponseEntity.created(uri).build();
-//    }
+    @PutMapping("/clientes/{id}")
+    public ResponseEntity<Void> salvarCliente(@PathVariable("id") Long id, @RequestBody @Valid UsuarioClienteDTO dto) {
+        UsuarioCliente usuarioCliente = usuarioClienteMapper.toEntity(dto);
+        usuarioCliente.getUsuario().setId(id);
+        usuarioCliente.getCliente().setId(usuarioCliente.getUsuario().getId());
+        return this.salvarCliente(usuarioCliente);
+    }
 
-//
+    @PostMapping("/funcionarios")
+    public ResponseEntity<Void> salvarFuncionario(@RequestBody @Valid UsuarioFuncionarioDTO dto) {
+        return this.salvarFuncionario(usuarioFuncionarioMapper.toEntity(dto));
+    }
+
+    @PutMapping("/funcionarios/{id}")
+    public ResponseEntity<Void> salvarFucionario(@PathVariable("id") Long id, @RequestBody @Valid UsuarioFuncionarioDTO dto) {
+        UsuarioFuncionario usuarioFuncionario = usuarioFuncionarioMapper.toEntity(dto);
+        usuarioFuncionario.getUsuario().setId(id);
+        usuarioFuncionario.getFuncionario().setId(usuarioFuncionario.getUsuario().getId());
+        return this.salvarFuncionario(usuarioFuncionario);
+    }
+
+
 //    @GetMapping
 //    public ResponseEntity<List<Usuario>> usuarios() {
 //        return ResponseEntity.status(HttpStatus.OK).body(this.usuariosService.usuarios());
@@ -108,5 +98,29 @@ public class UsuariosResource {
 //                .path("/{id}").buildAndExpand(funcionario.getId()).toUri();
 //        return ResponseEntity.created(uri).build();
 //    }
+
+    private ResponseEntity<Void> salvarCliente(UsuarioCliente usuarioCliente) {
+        Usuario usuario = usuarioCliente.getUsuario();
+        Cliente cliente = usuarioCliente.getCliente();
+        usuario = usuariosService.salvar(usuario);
+        cliente.setUsuario(usuario);
+        Optional<Cliente> op = Optional.of(clienteService.salvar(cliente));
+        if (!op.isPresent()) throw new RuntimeException();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(op.get().getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
+    private ResponseEntity<Void> salvarFuncionario(UsuarioFuncionario usuarioFuncionario) {
+        Usuario usuario = usuarioFuncionario.getUsuario();
+        Funcionario funcionario = usuarioFuncionario.getFuncionario();
+        usuario = usuariosService.salvar(usuario);
+        funcionario.setUsuario(usuario);
+        Optional<Funcionario> op = Optional.of(funcionarioService.salvar(funcionario));
+        if (!op.isPresent()) throw new RuntimeException();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(op.get().getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
 
 }

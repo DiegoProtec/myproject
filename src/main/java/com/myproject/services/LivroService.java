@@ -20,14 +20,14 @@ public class LivroService extends AbstractCrudService<Livro, Long, LivroReposito
         return super.listar();
     }
 
-    public Optional<Livro> livro(Long id) {
-        Optional<Livro> livro = super.buscarPorId(id);
+    public Livro livro(Long id) {
+        Optional<Livro> livro = Optional.of(super.buscarPorId(id));
         if (!livro.isPresent()) throw new CustomNotFoundException("Livro, id: " + id + "não encontrado.");
-        return livro;
+        return livro.get();
     }
 
     @Transactional
-    public Optional<Livro> salvar(Livro livro) {
+    public Livro salvar(Livro livro) {
         return super.salvar(livro);
     }
 

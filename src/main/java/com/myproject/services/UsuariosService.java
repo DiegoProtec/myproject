@@ -15,14 +15,14 @@ public class UsuariosService extends AbstractCrudService<Usuario, Long, UsuarioR
         super(repository);
     }
 
-    public Optional<Usuario> usuario(Long id) {
-        Optional<Usuario> usuario = super.buscarPorId(id);
+    public Usuario usuario(Long id) {
+        Optional<Usuario> usuario = Optional.of(super.buscarPorId(id));
         if (!usuario.isPresent()) throw new CustomNotFoundException("Usuário, id: " + id + ", não encontrado.");
-        return usuario;
+        return usuario.get();
     }
 
     @Transactional
-    public Optional<Usuario> salvar(Usuario usuario) {
+    public Usuario salvar(Usuario usuario) {
         return super.salvar(usuario);
     }
 

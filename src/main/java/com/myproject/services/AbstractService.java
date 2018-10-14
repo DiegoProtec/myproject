@@ -4,7 +4,6 @@ import com.myproject.domains.BaseEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.io.Serializable;
-import java.util.Optional;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -21,8 +20,8 @@ public abstract class AbstractService<E extends BaseEntity<I>, I extends Seriali
         return toStream(repository.findAll());
     }
 
-    public Optional<E> buscarPorId(I id) {
-        return repository.findById(id);
+    public E buscarPorId(I id) {
+        return repository.findById(id).get();
     }
 
 

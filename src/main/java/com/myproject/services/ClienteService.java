@@ -20,14 +20,14 @@ public class ClienteService extends AbstractCrudService<Cliente, Long, ClienteRe
         return super.listar();
     }
 
-    public Optional<Cliente> cliente(Long id) {
-        Optional<Cliente> cliente = super.buscarPorId(id);
+    public Cliente cliente(Long id) {
+        Optional<Cliente> cliente = Optional.of(super.buscarPorId(id));
         if (!cliente.isPresent()) throw new CustomNotFoundException("Cliente, id: " + id + "não encontrado.");
-        return cliente;
+        return cliente.get();
     }
 
     @Transactional
-    public Optional<Cliente> salvar(Cliente cliente) {
+    public Cliente salvar(Cliente cliente) {
         return super.salvar(cliente);
     }
 

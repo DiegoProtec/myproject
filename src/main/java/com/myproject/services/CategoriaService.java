@@ -21,13 +21,13 @@ public class CategoriaService extends AbstractCrudService<Categoria, Long, Categ
     }
 
     public Categoria categoria(Long id) {
-        Optional<Categoria> op = super.buscarPorId(id);
+        Optional<Categoria> op = Optional.of(super.buscarPorId(id));
         if (!op.isPresent()) throw new CustomNotFoundException("Categoria, id: " + id + "não encontrado.");
         return op.get();
     }
 
     @Transactional
-    public Optional<Categoria> salvar(Categoria categoria) {
+    public Categoria salvar(Categoria categoria) {
         return super.salvar(categoria);
     }
 

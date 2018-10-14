@@ -20,14 +20,14 @@ public class AutorService extends AbstractCrudService<Autor, Long, AutorReposito
         return super.listar();
     }
 
-    public Optional<Autor> autor(Long id) {
-        Optional<Autor> autor = super.buscarPorId(id);
+    public Autor autor(Long id) {
+        Optional<Autor> autor = Optional.of(super.buscarPorId(id));
         if (!autor.isPresent()) throw new CustomNotFoundException("Autor, id: " + id + "não encontrado.");
-        return autor;
+        return autor.get();
     }
 
     @Transactional
-    public Optional<Autor> salvar(Autor autor) {
+    public Autor salvar(Autor autor) {
         return super.salvar(autor);
     }
 
